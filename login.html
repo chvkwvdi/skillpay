@@ -1,0 +1,516 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Login | SkillPay</title>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@600;700;800&display=swap"
+        rel="stylesheet">
+    <link rel="shortcut icon" href="assets/images/fav__icon.png" type="image/x-icon">
+
+    <style>
+        :root {
+            --primary: #2563EB;
+            --dark: #0F172A;
+            --error: #EF4444;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+        }
+
+        body {
+            background: #fff;
+            display: flex;
+            justify-content: center;
+            color: var(--dark);
+        }
+
+        .container {
+            width: 100%;
+            max-width: 414px;
+            padding: 40px 24px;
+            min-height: 100vh;
+        }
+
+        .header {
+            margin-bottom: 35px;
+        }
+
+        .header h1 {
+            font-size: 28px;
+            font-weight: 800;
+            letter-spacing: -1px;
+        }
+
+        .header p {
+            color: #64748B;
+            font-size: 14px;
+            margin-top: 5px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 13px;
+            font-weight: 700;
+            color: var(--dark);
+            margin-bottom: 8px;
+        }
+
+        .input-box {
+            width: 100%;
+            padding: 18px;
+            border-radius: 16px;
+            border: 1.5px solid #F1F5F9;
+            background: #F8FAFC;
+            font-size: 15px;
+            font-weight: 600;
+            outline: none;
+            transition: all 0.2s ease;
+        }
+
+        .input-box:focus {
+            border-color: var(--primary);
+            background: #fff;
+            box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.1);
+        }
+
+        .error-msg {
+            background: #FEF2F2;
+            color: var(--error);
+            padding: 12px;
+            border-radius: 12px;
+            font-size: 13px;
+            font-weight: 700;
+            margin-bottom: 20px;
+            display: none;
+            text-align: center;
+        }
+
+        .btn-login {
+            width: 100%;
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 18px;
+            border-radius: 18px;
+            font-size: 16px;
+            font-weight: 800;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+
+        .footer-link {
+            text-align: center;
+            margin-top: 25px;
+            font-size: 14px;
+            color: #64748B;
+        }
+
+        .footer-link a {
+            color: var(--primary);
+            text-decoration: none;
+            font-weight: 700;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- PAGE LOADER ANIMATION -->
+
+    <div id="pageLoader">
+
+        <div class="loader-content">
+
+            <img src="assets/images/fav__icon.png" class="loader-logo">
+
+            <div class="loader-ring"></div>
+
+            <h2>SkillPay</h2>
+
+        </div>
+
+    </div>
+
+    <style>
+        /* LOADER SCREEN */
+
+        #pageLoader {
+            position: fixed;
+            inset: 0;
+            background: #ffffff;
+            z-index: 999999;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: opacity 0.5s ease,
+                visibility 0.5s ease;
+        }
+
+        .loader-content {
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* LOGO */
+
+        .loader-logo {
+            width: 90px;
+            height: 90px;
+            object-fit: contain;
+            animation: pulseLogo 1.3s infinite ease-in-out;
+            z-index: 2;
+        }
+
+        /* ROTATING RING */
+
+        .loader-ring {
+            position: absolute;
+            width: 130px;
+            height: 130px;
+            border-radius: 50%;
+            border: 5px solid #E2E8F0;
+            border-top: 5px solid #2563EB;
+            animation: spinRing 1s linear infinite;
+        }
+
+        /* TEXT */
+
+        .loader-content h2 {
+            margin-top: 25px;
+            font-size: 22px;
+            font-weight: 800;
+            color: #2563EB;
+            letter-spacing: -0.5px;
+        }
+
+        /* ANIMATIONS */
+
+        @keyframes spinRing {
+
+            0% {
+                transform: rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+
+        @keyframes pulseLogo {
+
+            0% {
+                transform: scale(0.92);
+                opacity: 0.7;
+            }
+
+            50% {
+                transform: scale(1);
+                opacity: 1;
+            }
+
+            100% {
+                transform: scale(0.92);
+                opacity: 0.7;
+            }
+        }
+    </style>
+
+    <script>
+
+        // SHOW LOADER WHEN PAGE LOADS
+
+        window.addEventListener('load', () => {
+
+            setTimeout(() => {
+
+                const loader =
+                    document.getElementById('pageLoader');
+
+                loader.style.opacity = '0';
+
+                loader.style.visibility = 'hidden';
+
+            }, 1800);
+
+        });
+
+        // SHOW LOADER WHEN MOVING TO ANOTHER PAGE
+
+        document.querySelectorAll('a').forEach(link => {
+
+            link.addEventListener('click', function (e) {
+
+                const href = this.getAttribute('href');
+
+                if (href && href !== '#') {
+
+                    e.preventDefault();
+
+                    const loader =
+                        document.getElementById('pageLoader');
+
+                    loader.style.opacity = '1';
+
+                    loader.style.visibility = 'visible';
+
+                    setTimeout(() => {
+
+                        window.location.href = href;
+
+                    }, 800);
+
+                }
+
+            });
+
+        });
+        function checkInternetConnection() {
+
+            // OFFLINE
+            if (!navigator.onLine) {
+
+                document.body.innerHTML = `
+        <div style="
+            width:100%;
+            height:100vh;
+            display:flex;
+            align-items:center;
+            justify-content:center;
+            background:#F8FAFC;
+            font-family:'Plus Jakarta Sans',sans-serif;
+            padding:20px;
+        ">
+            <div style="
+                width:100%;
+                max-width:380px;
+                background:#fff;
+                padding:35px 25px;
+                border-radius:28px;
+                text-align:center;
+                box-shadow:0 10px 30px rgba(0,0,0,0.05);
+            ">
+
+                <div style="
+                    width:90px;
+                    height:90px;
+                    margin:auto;
+                    border-radius:50%;
+                    background:#EFF6FF;
+                    display:flex;
+                    align-items:center;
+                    justify-content:center;
+                    margin-bottom:20px;
+                ">
+                    <i class="fa-solid fa-wifi-slash"
+                        style="
+                            font-size:40px;
+                            color:#2563EB;
+                        ">
+                    </i>
+                </div>
+
+                <h2 style="
+                    font-size:24px;
+                    font-weight:800;
+                    color:#0F172A;
+                    margin-bottom:10px;
+                ">
+                    No Internet Connection
+                </h2>
+
+                <p style="
+                    font-size:14px;
+                    line-height:1.7;
+                    color:#64748B;
+                    margin-bottom:25px;
+                ">
+                    Please turn on your mobile data or Wi-Fi
+                    to continue using SkillPay.
+                </p>
+
+                <button onclick="window.location.reload()"
+                    style="
+                        width:100%;
+                        border:none;
+                        background:#2563EB;
+                        color:white;
+                        padding:16px;
+                        border-radius:18px;
+                        font-size:15px;
+                        font-weight:800;
+                        cursor:pointer;
+                    ">
+                    Retry Connection
+                </button>
+
+            </div>
+        </div>
+        `;
+            }
+        }
+
+        // Run check immediately
+        checkInternetConnection();
+
+        // Detect when internet goes OFF
+        window.addEventListener("offline", () => {
+            checkInternetConnection();
+        });
+
+        // Detect when internet comes back
+        window.addEventListener("online", () => {
+            window.location.reload();
+        });
+    </script>
+    <div class="container">
+        <div class="header">
+            <h1>Welcome Back</h1>
+            <p>Enter your details to continue earning.</p>
+        </div>
+
+        <div id="loginError" class="error-msg">Invalid contact or password.</div>
+
+        <div class="form-group">
+            <label>Email or Phone Number</label>
+            <input type="text" id="loginId" class="input-box" placeholder="e.g. john@mail.com">
+        </div>
+
+        <div class="form-group">
+            <label>Password</label>
+            <input type="password" id="loginPass" class="input-box" placeholder="••••••••">
+        </div>
+
+        <button class="btn-login" onclick="performLogin()">Sign In</button>
+        <button class="btn-login" style="background:#0F172A;margin-top:12px;" onclick="biometricLogin()">
+            Login with Face ID / Fingerprint
+        </button>
+
+        <p class="footer-link">New to SkillPay? <a href="signup.html">Create Account</a></p>
+    </div>
+    <script>
+        // CHECK INTERNET CONNECTION
+        if (!navigator.onLine) {
+            document.body.innerHTML = `
+        <div style="
+            height:100vh;
+            display:flex;
+            align-items:center;
+            justify-content:center;
+            text-align:center;
+            padding:20px;
+            font-family:'Plus Jakarta Sans',sans-serif;
+        ">
+            <div>
+                <h2 style="font-size:24px;margin-bottom:10px;">No Internet Connection</h2>
+                <p style="color:#64748B;">Please turn on your internet connection.</p>
+            </div>
+        </div>
+        `;
+        }
+
+        async function biometricLogin() {
+
+            if (!window.PublicKeyCredential) {
+                alert("Biometric login is not supported on this device.");
+                return;
+            }
+
+            try {
+                await navigator.credentials.get({
+                    publicKey: {
+                        challenge: new Uint8Array(32),
+                        timeout: 60000,
+                        userVerification: "preferred"
+                    }
+                });
+
+                localStorage.setItem('isLoggedIn', 'true');
+
+                window.location.href = 'index.html';
+
+            } catch (err) {
+                alert("Biometric authentication cancelled.");
+            }
+        }
+
+        function performLogin() {
+
+            const inputId = document.getElementById('loginId').value.trim();
+            const inputPass = document.getElementById('loginPass').value.trim();
+
+            const errorBanner = document.getElementById('loginError');
+
+            const savedData = JSON.parse(localStorage.getItem('skillpay_user'));
+
+            if (!savedData) {
+                alert('No account found. Please create account.');
+                window.location.href = 'signup.html';
+                return;
+            }
+
+            const valid =
+                (inputId === savedData.email ||
+                    inputId === savedData.phone) &&
+                inputPass === savedData.pass;
+
+            if (valid) {
+
+                localStorage.setItem('isLoggedIn', 'true');
+
+                localStorage.setItem(
+                    'currentUser',
+                    JSON.stringify(savedData)
+                );
+
+                // DAILY LOGIN BONUS
+                const today = new Date().toDateString();
+
+                const lastLogin =
+                    localStorage.getItem('lastLoginDate');
+
+                if (lastLogin !== today) {
+
+                    savedData.balance += 20;
+
+                    localStorage.setItem(
+                        'lastLoginDate',
+                        today
+                    );
+
+                    localStorage.setItem(
+                        'skillpay_user',
+                        JSON.stringify(savedData)
+                    );
+
+                    localStorage.setItem(
+                        'new_notif',
+                        'true'
+                    );
+
+                    alert("Daily check-in bonus added: ₦20");
+                }
+
+                window.location.href = 'index.html';
+
+            } else {
+
+                errorBanner.style.display = 'block';
+
+            }
+        }
+    </script>
+</body>
+
+</html>

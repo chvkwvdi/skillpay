@@ -1,0 +1,84 @@
+body {
+  background-color: #2f27a1;
+  color: gray;
+  font-size: 16px;
+  font-family: Arial, Helvetica, sans-serif;
+  line-height: 1.6em;
+}
+
+.container {
+  width: 80%;
+  margin: auto;
+  overflow: hidden;
+  margin: 0;
+}
+
+#main-header {
+  background-color: coral;
+  color: #fff;
+  font-size: 15px;
+  font-style: 15px;
+  line-height: 3.6em;
+}
+
+#navbar {
+  background-color: #847c99;
+  font-style: normal;
+  line-height: 40px;
+}
+
+#navbar ul {
+  padding: 0;
+  list-style: none;
+  font-display: 20px;
+}
+
+#navbar li {
+  display: inline;
+  margin-left: 5px;
+}
+
+#navbar a {
+  /* color: #b40606; */
+  text-decoration: none;
+  font-size: 18px;
+  padding-right: 15px;
+}
+.color-nav {
+  color: rgb(224, 214, 214);
+}
+
+#showcase {
+  background-image: url("../first_trianing/image.jpg");
+  background-position-x: right;
+  min-height: 200px;
+  margin-bottom: 30px;
+  text-align: center;
+}
+
+#sidebar {
+  margin-left: 400px;
+  min-width: 200px;
+  padding-left: 15px;
+  color: #fff;
+  padding-bottom: 10px;
+  text-decoration: underline;
+}
+#sidebar2 {
+  background-color: rgb(71, 47, 47);
+  color: aliceblue;
+  font-family: Arial, Helvetica, sans-serif;
+  outline-color: aliceblue;
+  margin-right: 200px;
+  min-width: 200px;
+  text-decoration: dashed;
+  padding-bottom: 10px;
+  text-align: center;
+}
+.sidefolder {
+  height: 300px;
+  width: 300px;
+  margin: 50px 10px;
+  background-color: deeppink;
+  padding: 50px;
+}

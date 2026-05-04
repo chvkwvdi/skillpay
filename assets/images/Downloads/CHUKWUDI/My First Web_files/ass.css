@@ -1,0 +1,11 @@
+body {
+  background-color: #ff002b;
+}
+
+#mainheader h1 {
+  background-color: #000000;
+  text-decoration: underline;
+  color: blue;
+  font-display: flex;
+  padding-block: 50px 10px;
+}

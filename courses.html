@@ -1,0 +1,499 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>SkillPay | Professional Catalog</title>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap"
+        rel="stylesheet">
+    <link rel="shortcut icon" href="assets/images/fav__icon.png" type="image/x-icon">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        /* --- GLOBAL VARIABLES --- */
+        :root {
+            --primary: #2563EB;
+            --navy: #101030;
+            --slate: #94A3B8;
+            --bg-light: #F8FAFC;
+            --white: #FFFFFF;
+            --border-color: #F1F5F9;
+            --radius-xl: 24px;
+            --radius-lg: 16px;
+        }
+
+        /* --- RESET & BASE --- */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+        }
+
+        body {
+            background-color: #F1F5F9;
+            display: flex;
+            justify-content: center;
+            color: var(--navy);
+        }
+
+        .app-container {
+            width: 100%;
+            max-width: 448px;
+            min-height: 100vh;
+            background: var(--white);
+            position: relative;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.05);
+            padding-bottom: 100px;
+        }
+
+        /* --- HEADER & NOTIFICATION --- */
+        .header {
+            padding: 40px 24px 20px;
+            position: sticky;
+            top: 0;
+            background: var(--white);
+            z-index: 50;
+        }
+
+        .header-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 24px;
+        }
+
+        .header-top h1 {
+            font-size: 28px;
+            font-weight: 900;
+            letter-spacing: -0.02em;
+        }
+
+        .header-top p {
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--slate);
+            margin-left: 25px;
+            margin-top: 12px;
+        }
+
+        .notif-btn {
+            width: 48px;
+            height: 48px;
+            background: var(--bg-light);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-lg);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+
+        .notif-btn:active {
+            transform: scale(0.9);
+        }
+
+        .notif-dot {
+            width: 10px;
+            height: 10px;
+            background: #EF4444;
+            border: 2px solid var(--white);
+            border-radius: 50%;
+            position: absolute;
+            top: 12px;
+            right: 12px;
+        }
+
+        /* --- RESEARCH BAR --- */
+        .search-wrapper {
+            position: relative;
+            margin-bottom: 24px;
+        }
+
+        .search-wrapper i {
+            position: absolute;
+            left: 16px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--slate);
+        }
+
+        .search-input {
+            width: 100%;
+            background: var(--bg-light);
+            border: 1px solid transparent;
+            padding: 16px 16px 16px 48px;
+            border-radius: var(--radius-lg);
+            font-size: 14px;
+            font-weight: 600;
+            outline: none;
+            transition: all 0.2s;
+        }
+
+        .search-input:focus {
+            background: var(--white);
+            border-color: var(--primary);
+            box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.05);
+        }
+
+        /* --- CATEGORIES --- */
+        .categories {
+            display: flex;
+            gap: 10px;
+            overflow-x: auto;
+            padding-bottom: 10px;
+        }
+
+        .categories::-webkit-scrollbar {
+            display: none;
+        }
+
+        .cat-btn {
+            padding: 10px 24px;
+            border-radius: 12px;
+            font-size: 11px;
+            font-weight: 800;
+            border: none;
+            cursor: pointer;
+            white-space: nowrap;
+            background: var(--bg-light);
+            color: black;
+            transition: all 0.3s;
+        }
+
+        .cat-btn.active {
+            background: var(--primary);
+            color: var(--white);
+            box-shadow: 0 8px 15px rgba(37, 99, 235, 0.2);
+        }
+
+        /* --- COURSE CARDS --- */
+        .course-list {
+            padding: 0 24px;
+        }
+
+        .course-card {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            padding: 18px;
+            background: var(--white);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-xl);
+            margin-bottom: 16px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .course-card:active {
+            transform: scale(0.97);
+            background: var(--bg-light);
+        }
+
+        .thumb {
+            width: 56px;
+            height: 56px;
+            border-radius: 18px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--white);
+            font-size: 20px;
+            flex-shrink: 0;
+            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.05);
+        }
+
+        .info {
+            flex: 1;
+        }
+
+        .badge {
+            font-size: 9px;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: var(--primary);
+            background: #EFF6FF;
+            padding: 2px 8px;
+            border-radius: 4px;
+            display: inline-block;
+            margin-bottom: 4px;
+        }
+
+        .info h4 {
+            font-size: 15px;
+            font-weight: 700;
+            margin-bottom: 2px;
+        }
+
+        .info p {
+            font-size: 11px;
+            font-weight: 600;
+            color: var(--slate);
+        }
+
+        .chevron {
+            width: 32px;
+            height: 32px;
+            background: var(--bg-light);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #CBD5E1;
+            font-size: 10px;
+        }
+
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100%;
+            max-width: 448px;
+            height: 75px;
+            background: white;
+            border-top: 1px solid #064fe2;
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            border-radius: 24px 24px 0px 0px;
+            z-index: 100;
+            box-shadow: 0 -5px 15px rgba(0, 0, 0, 0.02);
+        }
+
+        .nav-link {
+            text-decoration: none;
+            color: #94a3b8;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 4px;
+            transition: 0.2s;
+        }
+
+        .nav-link.active {
+            color: var(--primary);
+        }
+
+        .nav-link i {
+            font-size: 18px;
+        }
+
+        .nav-link span {
+            font-size: 10px;
+            font-weight: 800;
+        }
+
+        .loader-screen {
+            position: fixed;
+            inset: 0;
+            background: white;
+            z-index: 999999;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            transition: 0.4s;
+        }
+
+        .loader-logo {
+            width: 90px;
+            animation: pulse 1.2s infinite;
+        }
+
+        .loader-text {
+            margin-top: 15px;
+            font-size: 16px;
+            font-weight: 800;
+            color: #2563EB;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+        }
+
+        @keyframes pulse {
+
+            0% {
+                transform: scale(0.9);
+                opacity: 0.5;
+            }
+
+            50% {
+                transform: scale(1);
+                opacity: 1;
+            }
+
+            100% {
+                transform: scale(0.9);
+                opacity: 0.5;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="app-container">
+
+        <header class="header">
+            <div class="header-top">
+                <div>
+                    <div style="display: flex; gap: 12px;">
+                        <a href="index.html"><i class="fas fa-arrow-left "
+                                style="margin-top: 10px; font-size: 18px;"></i></a>
+                        <h1> Courses</h1>
+
+                    </div>
+                    <p>Master new skills daily</p>
+                </div>
+                <div class="notif-btn" onclick="location.href='notify.html'">
+                    <i class="fa-solid fa-bell"></i>
+                    <div class="notif-dot"></div>
+                </div>
+            </div>
+
+            <div class="search-wrapper">
+                <i class="fa-solid fa-magnifying-glass"></i>
+                <input type="text" class="search-input" id="searchBar" oninput="runSearch(this.value)"
+                    placeholder="Search 20+ skills...">
+            </div>
+
+            <div class="categories" id="catMenu">
+                <button class="cat-btn active" onclick="setFilter('All', this)">All</button>
+                <button class="cat-btn" onclick="setFilter('Coding', this)">Coding</button>
+                <button class="cat-btn" onclick="setFilter('Design', this)">Design</button>
+                <button class="cat-btn" onclick="setFilter('Future', this)">Future</button>
+            </div>
+        </header>
+        <div class="loader-screen" id="loader">
+
+            <img src="assets/images/fav__icon.png" class="loader-logo">
+
+            <div class="loader-text">
+                SkillPay
+            </div>
+
+        </div>
+        <main class="course-list" id="courseList"></main>
+
+        <nav class="bottom-nav">
+            <a href="index.html" class="nav-link"><i class="fa-solid fa-house"></i><span>Home</span></a>
+            <a href="courses.html" class="nav-link active"><i class="fa-solid fa-book"></i><span>Catalog</span></a>
+            <a href="earn.html" class="nav-link"><i class="fa-solid fa-sack-dollar"></i><span>Earn</span></a>
+            <a href="vault.html" class="nav-link"><i class="fa-solid fa-gem"></i><span>Savings</span></a>
+            <a href="profile.html" class="nav-link"><i class="fa-solid fa-user"></i><span>Profile</span></a>
+        </nav>
+    </div>
+
+    <script>
+        const courses = [
+            { title: "Video Editing Mastery", sub: "Adobe Premiere & CapCut", cat: "Design", color: "#EF4444", icon: "fa-video" },
+            { title: "Python for Beginners", sub: "Logic & Data Structures", cat: "Coding", color: "#2563EB", icon: "fa-code" },
+            { title: "Robotics & Hardware", sub: "Control Systems 101", cat: "Future", color: "#10B981", icon: "fa-robot" },
+            { title: "UI/UX Architecture", sub: "Advanced Figma Guide", cat: "Design", color: "#9333EA", icon: "fa-compass-drafting" },
+            { title: "Cyber Security", sub: "Ethical Hacking Basics", cat: "Future", color: "#64748B", icon: "fa-user-shield" },
+            { title: "AI & Neural Networks", sub: "Prompt Engineering", cat: "Future", color: "#8B5CF6", icon: "fa-brain" },
+            { title: "Web Dev Fullstack", sub: "React & Node JS", cat: "Coding", color: "#0F172A", icon: "fa-globe" },
+            { title: "App Engineering", sub: "Flutter & Mobile Apps", cat: "Coding", color: "#14B8A6", icon: "fa-mobile-screen" },
+            { title: "Graphic Design", sub: "Visual Identity Design", cat: "Design", color: "#EC4899", icon: "fa-pen-nib" },
+            { title: "Data Science", sub: "SQL & Analytics", cat: "Coding", color: "#F59E0B", icon: "fa-database" }
+        ];
+
+        let activeCategory = "All";
+        let searchTerm = "";
+
+        function displayCourses() {
+            const container = document.getElementById('courseList');
+            const filtered = courses.filter(c => {
+                const matchesCat = (activeCategory === "All" || c.cat === activeCategory);
+                const matchesSearch = c.title.toLowerCase().includes(searchTerm.toLowerCase());
+                return matchesCat && matchesSearch;
+            });
+
+            if (filtered.length === 0) {
+                container.innerHTML = `<div style="text-align:center; padding: 50px; color: var(--slate); font-weight: 700;">No results found...</div>`;
+                return;
+            }
+
+            container.innerHTML = filtered.map(c => `
+                <div class="course-card" onclick="location.href='view.html?id=${encodeURIComponent(c.title)}'">
+                    <div class="thumb" style="background: ${c.color}"><i class="fa-solid ${c.icon}"></i></div>
+                    <div class="info">
+                        <span class="badge">${c.cat}</span>
+                        <h4>${c.title}</h4>
+                        <p>${c.sub}</p>
+                    </div>
+                    <div class="chevron"><i class="fa-solid fa-chevron-right"></i></div>
+                </div>
+            `).join('');
+        }
+
+        function runSearch(val) {
+            searchTerm = val;
+            displayCourses();
+        }
+
+        function setFilter(cat, btn) {
+            activeCategory = cat;
+            document.querySelectorAll('.cat-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            displayCourses();
+        }
+
+        // Initialize
+        window.onload = displayCourses;
+        // PAGE LOAD ANIMATION
+
+        window.addEventListener('load', () => {
+
+            setTimeout(() => {
+
+                document.getElementById('loader').style.opacity = '0';
+
+                setTimeout(() => {
+
+                    document.getElementById('loader').style.display = 'none';
+
+                }, 400);
+
+            }, 1500);
+
+        });
+
+        // PAGE TRANSITION ANIMATION
+
+        document.querySelectorAll('a').forEach(link => {
+
+            link.addEventListener('click', function (e) {
+
+                const href = this.getAttribute('href');
+
+                if (href && href !== '#') {
+
+                    e.preventDefault();
+
+                    const loader =
+                        document.getElementById('loader');
+
+                    loader.style.display = 'flex';
+
+                    loader.style.opacity = '1';
+
+                    setTimeout(() => {
+
+                        window.location.href = href;
+
+                    }, 700);
+
+                }
+
+            });
+
+        });
+    </script>
+</body>
+
+</html>

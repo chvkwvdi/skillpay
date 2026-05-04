@@ -1,0 +1,1102 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SkillPay | Professional Profile</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@600;700;800&display=swap"
+        rel="stylesheet">
+    <link rel="shortcut icon" href="assets/images/fav__icon.png" type="image/x-icon">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        :root {
+            --primary-blue: #2563EB;
+            --navy-dark: #101030;
+        }
+
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background-color: #F4F6FB;
+        }
+
+        .nav-btn {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            color: #94a3b8;
+            transition: 0.2s;
+        }
+
+        .nav-btn.active {
+            color: var(--primary-blue);
+        }
+
+        /* Edit Mode Logic */
+        .editable-input {
+            border: 1px solid #E2E8F0;
+            border-radius: 8px;
+            padding: 4px 8px;
+            width: 100%;
+            display: none;
+            background: #fff;
+        }
+
+        .profile-value {
+            display: block;
+        }
+
+        .edit-mode .editable-input {
+            display: block;
+        }
+
+        .edit-mode .profile-value {
+            display: none;
+        }
+
+        /* FIXED OVERLAY - Increased Z-Index */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(4px);
+            z-index: 999;
+            align-items: flex-end;
+            justify-content: center;
+        }
+
+        .modal-card {
+            background: white;
+            width: 100%;
+            max-width: 448px;
+            border-radius: 30px 30px 0 0;
+            padding: 32px 24px;
+            animation: slideUp 0.3s ease-out;
+        }
+
+        /* FIXED NAV - Lower Z-Index + Centering */
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100%;
+            max-width: 448px;
+            height: 75px;
+            background: white;
+            border-top: 1px solid #064fe2;
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            border-radius: 24px 24px 0px 0px;
+            z-index: 100;
+            box-shadow: 0 -5px 15px rgba(0, 0, 0, 0.02);
+        }
+
+        .nav-link {
+            text-decoration: none;
+            color: #94a3b8;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 4px;
+            transition: 0.2s;
+        }
+
+        .nav-link.active {
+            color: var(--primary-blue);
+        }
+
+        .nav-link i {
+            font-size: 18px;
+        }
+
+        .nav-link span {
+            font-size: 10px;
+            font-weight: 700;
+        }
+
+        @keyframes slideUp {
+            from {
+                transform: translateY(100%);
+            }
+
+            to {
+                transform: translateY(0);
+            }
+        }
+
+        /* =========================
+   RESPONSIVENESS FIXES ONLY
+   ========================= */
+
+        /* Prevent horizontal scroll */
+        html,
+        body {
+            overflow-x: hidden;
+        }
+
+        /* Main container scaling */
+        .max-w-md {
+            width: 100%;
+            max-width: 100%;
+        }
+
+        /* Ensure inner content has breathing space */
+        @media (max-width: 480px) {
+            .px-6 {
+                padding-left: 16px !important;
+                padding-right: 16px !important;
+            }
+        }
+
+        /* Bottom nav fix (mobile safe) */
+        .bottom-nav {
+            width: 100%;
+            max-width: 100%;
+            left: 0;
+            transform: none;
+        }
+
+        /* Smaller phones adjustment */
+        @media (max-width: 360px) {
+            .nav-link i {
+                font-size: 16px;
+            }
+
+            .nav-link span {
+                font-size: 9px;
+            }
+
+            .bottom-nav {
+                height: 65px;
+            }
+        }
+
+        /* Modal responsiveness */
+        .modal-overlay {
+            padding: 10px;
+        }
+
+        .modal-card {
+            width: 100%;
+            max-width: 100%;
+            border-radius: 20px 20px 0 0;
+            padding: 20px;
+        }
+
+        /* Prevent input overflow */
+        input,
+        select {
+            max-width: 100%;
+        }
+
+        /* Profile image scaling */
+        @media (max-width: 400px) {
+            .w-28 {
+                width: 90px !important;
+                height: 90px !important;
+            }
+        }
+
+        /* Fix long text breaking layout */
+        .profile-value {
+            word-break: break-word;
+        }
+
+        /* Fix flex overflow in rows */
+        .flex {
+            flex-wrap: wrap;
+        }
+
+        .loader-screen {
+            position: fixed;
+            inset: 0;
+            background: white;
+            z-index: 999999;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            transition: 0.4s;
+        }
+
+        .loader-logo {
+            width: 90px;
+            animation: pulse 1.2s infinite;
+        }
+
+        .loader-text {
+            margin-top: 15px;
+            font-size: 16px;
+            font-weight: 800;
+            color: #2563EB;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+        }
+
+        #aiChatIcon {
+            position: fixed;
+            bottom: 95px;
+            right: 18px;
+            width: 65px;
+            height: 65px;
+            border-radius: 50%;
+            background: #2563EB;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            z-index: 99999;
+            box-shadow: 0 10px 25px rgba(37, 99, 235, 0.35);
+            animation: pulseChat 2s infinite;
+        }
+
+        #aiChatIcon i {
+            color: white;
+            font-size: 26px;
+        }
+
+        @keyframes pulseChat {
+            0% {
+                transform: scale(1);
+            }
+
+            50% {
+                transform: scale(1.08);
+            }
+
+            100% {
+                transform: scale(1);
+            }
+        }
+
+
+        /* ========================= CHAT SCREEN ========================= */
+
+        #supportChat {
+            position: fixed;
+            inset: 0;
+            background: #F8FAFC;
+            z-index: 999999;
+            display: none;
+            flex-direction: column;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+        }
+
+
+        /* ========================= HEADER ========================= */
+
+        .chat-header {
+            background: #2563EB;
+            padding: 18px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            color: white;
+        }
+
+        .chat-header-left {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .chat-avatar {
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .chat-avatar i {
+            font-size: 20px;
+        }
+
+        .chat-header h2 {
+            font-size: 17px;
+            font-weight: 800;
+        }
+
+        .chat-header p {
+            font-size: 11px;
+            opacity: 0.8;
+            margin-top: 2px;
+        }
+
+        .close-chat {
+            background: none;
+            border: none;
+            color: white;
+            font-size: 26px;
+            cursor: pointer;
+        }
+
+
+        /* ========================= CHAT BODY ========================= */
+
+        #chatMessages {
+            flex: 1;
+            overflow-y: auto;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+
+        /* ========================= BOT MESSAGE ========================= */
+
+        .bot-message {
+            max-width: 80%;
+            background: white;
+            padding: 14px;
+            border-radius: 18px 18px 18px 5px;
+            font-size: 14px;
+            line-height: 1.6;
+            color: #0F172A;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.04);
+        }
+
+
+        /* ========================= USER MESSAGE ========================= */
+
+        .user-message {
+            max-width: 80%;
+            background: #2563EB;
+            color: white;
+            padding: 14px;
+            border-radius: 18px 18px 5px 18px;
+            margin-left: auto;
+            font-size: 14px;
+            line-height: 1.6;
+        }
+
+
+        /* ========================= INPUT AREA ========================= */
+
+        .chat-input-area {
+            padding: 15px;
+            background: white;
+            border-top: 1px solid #E2E8F0;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        #supportInput {
+            flex: 1;
+            border: none;
+            outline: none;
+            background: #F1F5F9;
+            padding: 15px;
+            border-radius: 16px;
+            font-size: 14px;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+        }
+
+        .send-btn {
+            width: 52px;
+            height: 52px;
+            border: none;
+            border-radius: 16px;
+            background: #2563EB;
+            color: white;
+            cursor: pointer;
+            font-size: 18px;
+        }
+
+
+        /* ========================= TYPING ========================= */
+
+        .typing {
+            display: flex;
+            gap: 5px;
+            align-items: center;
+        }
+
+        .typing span {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: #94A3B8;
+            animation: typingBounce 1s infinite;
+        }
+
+        .typing span:nth-child(2) {
+            animation-delay: 0.2s;
+        }
+
+        .typing span:nth-child(3) {
+            animation-delay: 0.4s;
+        }
+
+        @keyframes typingBounce {
+
+            0%,
+            100% {
+                transform: translateY(0);
+            }
+
+            50% {
+                transform: translateY(-4px);
+            }
+        }
+
+
+        /* ========================= MOBILE ========================= */
+
+        @media(max-width:480px) {
+
+            #aiChatIcon {
+                width: 58px;
+                height: 58px;
+                bottom: 88px;
+            }
+
+            .chat-header {
+                padding: 15px;
+            }
+
+            #supportInput {
+                font-size: 13px;
+            }
+
+        }
+
+        @keyframes pulse {
+
+            0% {
+                transform: scale(0.9);
+                opacity: 0.5;
+            }
+
+            50% {
+                transform: scale(1);
+                opacity: 1;
+            }
+
+            100% {
+                transform: scale(0.9);
+                opacity: 0.5;
+            }
+        }
+    </style>
+</head>
+
+<body class="bg-[#F4F6FB]">
+
+    <div class="max-w-md mx-auto min-h-screen pb-32 bg-white relative shadow-xl">
+
+        <div class="px-6 pt-8 pb-4 flex justify-between items-center bg-white sticky top-0 z-10">
+            <h1 class="text-[20px] font-extrabold text-[#101030]">Account Settings</h1>
+            <button onclick="toggleEdit()" id="editBtn"
+                class="text-[13px] font-bold text-blue-600 bg-blue-50 px-4 py-1.5 rounded-full">
+                Edit
+            </button>
+        </div>
+
+        <div id="profileContent">
+            <div class="px-6 mt-2 text-center">
+                <div class="relative w-28 h-28 mx-auto">
+                    <img id="avatar" src="https://ui-avatars.com/api/?background=2563EB&color=fff&bold=true"
+                        class="w-full h-full rounded-full object-cover border-4 border-white shadow-md">
+                    <input type="file" id="upload" hidden onchange="uploadImage(event)">
+                    <button onclick="document.getElementById('upload').click()"
+                        class="absolute bottom-1 right-1 bg-[#101030] text-white w-9 h-9 rounded-full flex items-center justify-center border-2 border-white shadow">
+                        <i class="fa-solid fa-camera text-[10px]"></i>
+                    </button>
+                </div>
+                <h2 id="dispName" class="mt-4 text-[18px] font-extrabold text-[#0F172A]">User Name</h2>
+                <p id="dispTag" class="text-[12px] text-slate-400 font-bold">@nickname</p>
+            </div>
+
+            <div class="px-6 mt-10">
+                <h3 class="text-[13px] font-extrabold text-slate-400 uppercase tracking-widest mb-4">Personal Details
+                </h3>
+                <div class="space-y-6 bg-slate-50 p-5 rounded-[24px]">
+                    <div class="flex justify-between items-center">
+                        <p class="text-sm font-bold text-slate-600">Full Name</p>
+                        <div class="w-1/2 text-right">
+                            <span class="profile-value text-sm font-extrabold text-slate-900"
+                                id="valName">Loading...</span>
+                            <input type="text" class="editable-input text-right" id="inName">
+                        </div>
+                    </div>
+                    <div class="flex justify-between items-center">
+                        <p class="text-sm font-bold text-slate-600">Nickname</p>
+                        <div class="w-1/2 text-right">
+                            <span class="profile-value text-sm font-extrabold text-slate-900" id="valNick">Add
+                                Nickname</span>
+                            <input type="text" class="editable-input text-right" id="inNick" placeholder="e.g. King">
+                        </div>
+                    </div>
+                    <div class="flex justify-between items-center">
+                        <p class="text-sm font-bold text-slate-600">Email Address</p>
+                        <div class="w-1/2 text-right">
+                            <span class="profile-value text-sm font-extrabold text-slate-900"
+                                id="valEmail">Loading...</span>
+                            <input type="email" class="editable-input text-right" id="inEmail">
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <div class="px-6 mt-8">
+                <h3 class="text-[13px] font-extrabold text-slate-400 uppercase tracking-widest mb-4">Preferences &
+                    Security</h3>
+                <div class="space-y-2">
+                    <div onclick="openModal('bankModal')"
+                        class="flex items-center justify-between p-4 bg-white border border-slate-100 rounded-2xl cursor-pointer">
+                        <div class="flex items-center gap-4">
+                            <div
+                                class="w-10 h-10 bg-green-50 text-green-600 rounded-xl flex items-center justify-center">
+                                <i class="fa-solid fa-building-columns"></i>
+                            </div>
+                            <div>
+                                <h4 class="text-sm font-extrabold text-slate-900">Bank Details</h4>
+                                <p class="text-[11px] text-slate-400">Manage your withdrawal accounts</p>
+                            </div>
+                        </div>
+                        <i class="fa-solid fa-chevron-right text-slate-300 text-xs"></i>
+                    </div>
+
+                    <div onclick="openModal('securityModal')"
+                        class="flex items-center justify-between p-4 bg-white border border-slate-100 rounded-2xl cursor-pointer">
+                        <div class="flex items-center gap-4">
+                            <div class="w-10 h-10 bg-blue-50 text-blue-600 rounded-xl flex items-center justify-center">
+                                <i class="fa-solid fa-shield-halved"></i>
+                            </div>
+                            <div>
+                                <h4 class="text-sm font-extrabold text-slate-900">Security & Password</h4>
+                                <p class="text-[11px] text-slate-400">Change PIN and update password</p>
+                            </div>
+                        </div>
+                        <i class="fa-solid fa-chevron-right text-slate-300 text-xs"></i>
+                    </div>
+
+                    <a href="https://wa.me/2340000000000"
+                        class="flex items-center justify-between p-4 bg-white border border-slate-100 rounded-2xl">
+                        <div class="flex items-center gap-4">
+                            <div
+                                class="w-10 h-10 bg-purple-50 text-purple-600 rounded-xl flex items-center justify-center">
+                                <i class="fa-solid fa-headset"></i>
+                            </div>
+                            <div>
+                                <h4 class="text-sm font-extrabold text-slate-900">Help & Support</h4>
+                                <p class="text-[11px] text-slate-400">Chat with AI Customer Care</p>
+                            </div>
+                        </div>
+                        <i class="fa-solid fa-chevron-right text-slate-300 text-xs"></i>
+                    </a>
+                </div>
+            </div>
+
+            <div class="px-6 mt-10">
+                <button onclick="openModal('logoutModal')"
+                    class="w-full bg-red-50 text-red-600 text-sm font-extrabold py-4 rounded-[20px] flex items-center justify-center gap-2">
+                    <i class="fa-solid fa-power-off"></i> Sign Out
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <div id="bankModal" class="modal-overlay">
+        <div class="modal-card">
+            <h3 class="text-lg font-extrabold mb-2">Verify Bank Details</h3>
+            <p class="text-xs text-slate-400 mb-6">Enter a valid bank account for payouts.</p>
+            <input type="text" placeholder="Account Number"
+                class="w-full p-4 bg-slate-100 rounded-xl mb-3 text-sm font-bold outline-none border-none">
+            <select class="w-full p-4 bg-slate-100 rounded-xl mb-3 text-sm font-bold outline-none border-none">
+                <option>Select Bank</option>
+                <option>OPay</option>
+                <option>PalmPay</option>
+                <option>Moniepoint</option>
+            </select>
+            <input type="text" id="verifiedBankName" readonly
+                class="w-full p-4 bg-slate-50 text-slate-400 rounded-xl mb-6 text-sm font-bold border-none"
+                placeholder="Verified Name">
+            <button onclick="closeModal('bankModal')"
+                class="w-full bg-blue-600 text-white py-4 rounded-xl font-bold">Save Bank Details</button>
+        </div>
+    </div>
+
+    <div id="securityModal" class="modal-overlay">
+        <div class="modal-card">
+            <h3 class="text-lg font-extrabold mb-2">Security Settings</h3>
+            <p class="text-xs text-slate-400 mb-6">Update your account password below.</p>
+            <input type="password" placeholder="Current Password"
+                class="w-full p-4 bg-slate-100 rounded-xl mb-3 text-sm outline-none">
+            <input type="password" placeholder="New Password"
+                class="w-full p-4 bg-slate-100 rounded-xl mb-6 text-sm outline-none">
+            <button onclick="closeModal('securityModal')"
+                class="w-full bg-slate-900 text-white py-4 rounded-xl font-bold">Update Password</button>
+        </div>
+    </div>
+
+    <div id="logoutModal" class="modal-overlay">
+        <div class="modal-card text-center">
+            <div
+                class="w-16 h-16 bg-blue-50 text-red-600 rounded-full flex items-center justify-center mx-auto mb-4 text-xl">
+                <i class="fa-solid fa-power-off"></i>
+            </div>
+            <h3 class="text-xl font-extrabold mb-2">Are you sure?</h3>
+            <p class="text-sm text-slate-400 mb-8 px-6">You will be logged out of your session. Do you want to continue?
+            </p>
+            <div class="flex gap-3">
+                <button onclick="window.location.href='login.html'"
+                    class="flex-1 bg-blue-600 text-white py-4 rounded-2xl font-bold">Quit</button>
+                <button onclick="closeModal('logoutModal')"
+                    class="flex-1 bg-slate-100 text-slate-600 py-4 rounded-2xl font-bold">Cancel</button>
+            </div>
+        </div>
+    </div>
+    <div class="loader-screen" id="loader">
+
+        <img src="assets/images/fav__icon.png" class="loader-logo">
+
+        <div class="loader-text">
+            SkillPay
+        </div>
+
+    </div>
+    <div id="aiChatIcon" onclick="openSupportChat()">
+
+        <i class="fa-solid fa-headset"></i>
+
+    </div>
+
+
+
+    <!-- ========================= LIVE CHAT ========================= -->
+
+    <div id="supportChat">
+
+        <!-- HEADER -->
+
+        <div class="chat-header">
+
+            <div class="chat-header-left">
+
+                <div class="chat-avatar">
+                    <i class="fa-solid fa-robot"></i>
+                </div>
+
+                <div>
+                    <h2>SkillPay AI Support</h2>
+                    <p>Online • Replies instantly</p>
+                </div>
+
+            </div>
+
+            <button class="close-chat" onclick="closeSupportChat()">
+                ×
+            </button>
+
+        </div>
+
+
+
+        <!-- CHAT BODY -->
+
+        <div id="chatMessages">
+
+            <div class="bot-message">
+                Hello 👋 Welcome to SkillPay Support.<br><br>
+                I am your AI assistant. Ask me anything about:
+                <br><br>
+                • Withdrawals<br>
+                • Top Up<br>
+                • Bonuses<br>
+                • Account Issues<br>
+                • Password Reset<br>
+                • Verification
+            </div>
+
+        </div>
+
+
+
+        <!-- INPUT -->
+
+        <div class="chat-input-area">
+
+            <input type="text" id="supportInput" placeholder="Ask SkillPay AI anything...">
+
+            <button class="send-btn" onclick="sendSupportMessage()">
+
+                <i class="fa-solid fa-paper-plane"></i>
+
+            </button>
+
+        </div>
+
+    </div>
+
+    <nav class="bottom-nav">
+        <a href="index.html" class="nav-link"><i class="fa-solid fa-house"></i><span>Home</span></a>
+        <a href="courses.html" class="nav-link"><i class="fa-solid fa-book"></i><span>Courses</span></a>
+        <a href="earn.html" class="nav-link"><i class="fa-solid fa-sack-dollar"></i><span>Earn</span></a>
+        <a href="vault.html" class="nav-link"><i class="fa-solid fa-gem"></i><span>Savings</span></a>
+        <a href="profile.html" class="nav-link active"><i class="fa-solid fa-user"></i><span>Profile</span></a>
+    </nav>
+
+    <script>
+        let isEditing = false;
+
+        window.onload = () => {
+
+            // ✅ FIX 1: Protect page (prevents auto close / redirect loop issues)
+            if (localStorage.getItem('isLoggedIn') !== 'true') {
+                window.location.replace('login.html');
+                return;
+            }
+
+            // ✅ FIX 2: Use SAME storage as login/dashboard
+            const user = JSON.parse(localStorage.getItem('skillpay_user')) || {
+                name: 'User',
+                email: '',
+                nickname: ''
+            };
+
+            applyUserData(user);
+        };
+
+        function applyUserData(user) {
+            document.getElementById('valName').innerText = user.name || "User";
+            document.getElementById('dispName').innerText = user.name || "User";
+
+            document.getElementById('valEmail').innerText = user.email || "No Email";
+
+            document.getElementById('valNick').innerText = user.nickname || "Add Nickname";
+            document.getElementById('dispTag').innerText = "@" + (user.nickname || "user");
+
+            document.getElementById('inName').value = user.name || "";
+            document.getElementById('inEmail').value = user.email || "";
+            document.getElementById('inNick').value = user.nickname || "";
+
+            // ✅ Safe bank name fill
+            const bankName = document.getElementById('verifiedBankName');
+            if (bankName) {
+                bankName.value = (user.name || "").toUpperCase();
+            }
+        }
+
+        function toggleEdit() {
+            const content = document.getElementById('profileContent');
+            const btn = document.getElementById('editBtn');
+
+            if (!isEditing) {
+                content.classList.add('edit-mode');
+                btn.innerText = "Save";
+                btn.classList.replace('text-blue-600', 'text-white');
+                btn.classList.replace('bg-blue-50', 'bg-blue-600');
+                isEditing = true;
+
+            } else {
+
+                // ✅ FIX 3: Preserve existing data (balance, etc.)
+                const existingUser = JSON.parse(localStorage.getItem('skillpay_user')) || {};
+
+                const updatedUser = {
+                    ...existingUser,
+                    name: document.getElementById('inName').value,
+                    email: document.getElementById('inEmail').value,
+                    nickname: document.getElementById('inNick').value
+                };
+
+                localStorage.setItem('skillpay_user', JSON.stringify(updatedUser));
+
+                applyUserData(updatedUser);
+
+                content.classList.remove('edit-mode');
+                btn.innerText = "Edit";
+                btn.classList.replace('text-white', 'text-blue-600');
+                btn.classList.replace('bg-blue-600', 'bg-blue-50');
+
+                isEditing = false;
+            }
+        }
+
+        function openModal(id) {
+            document.getElementById(id).style.display = 'flex';
+        }
+
+        function closeModal(id) {
+            document.getElementById(id).style.display = 'none';
+        }
+
+        function uploadImage(e) {
+            const reader = new FileReader();
+            reader.onload = () => {
+                document.getElementById('avatar').src = reader.result;
+            };
+            reader.readAsDataURL(e.target.files[0]);
+        }
+
+        // ✅ FIX 4: Proper logout
+        function logout() {
+            localStorage.removeItem('isLoggedIn');
+            window.location.replace('login.html');
+        }
+        // PAGE LOAD ANIMATION
+
+        window.addEventListener('load', () => {
+
+            setTimeout(() => {
+
+                document.getElementById('loader').style.opacity = '0';
+
+                setTimeout(() => {
+
+                    document.getElementById('loader').style.display = 'none';
+
+                }, 400);
+
+            }, 1500);
+
+        });
+
+        // PAGE TRANSITION ANIMATION
+
+        document.querySelectorAll('a').forEach(link => {
+
+            link.addEventListener('click', function (e) {
+
+                const href = this.getAttribute('href');
+
+                if (href && href !== '#') {
+
+                    e.preventDefault();
+
+                    const loader =
+                        document.getElementById('loader');
+
+                    loader.style.display = 'flex';
+
+                    loader.style.opacity = '1';
+
+                    setTimeout(() => {
+
+                        window.location.href = href;
+
+                    }, 700);
+
+                }
+
+            });
+
+        });
+
+
+
+        /* ========================= OPEN CHAT ========================= */
+
+        function openSupportChat() {
+
+            document.getElementById("supportChat").style.display = "flex";
+        }
+
+
+        /* ========================= CLOSE CHAT ========================= */
+
+        function closeSupportChat() {
+
+            document.getElementById("supportChat").style.display = "none";
+        }
+
+
+        /* ========================= SEND MESSAGE ========================= */
+
+        function sendSupportMessage() {
+
+            const input = document.getElementById("supportInput");
+
+            const message = input.value.trim();
+
+            if (!message) return;
+
+            const chatBody = document.getElementById("chatMessages");
+
+
+            /* USER MESSAGE */
+
+            const userMessage = document.createElement("div");
+
+            userMessage.className = "user-message";
+
+            userMessage.innerText = message;
+
+            chatBody.appendChild(userMessage);
+
+            input.value = "";
+
+            chatBody.scrollTop = chatBody.scrollHeight;
+
+
+            /* TYPING EFFECT */
+
+            const typing = document.createElement("div");
+
+            typing.className = "bot-message";
+
+            typing.id = "typingBox";
+
+            typing.innerHTML = `
+        <div class="typing">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+    `;
+
+            chatBody.appendChild(typing);
+
+            chatBody.scrollTop = chatBody.scrollHeight;
+
+
+            /* AI RESPONSE */
+
+            setTimeout(() => {
+
+                typing.remove();
+
+                const botMessage = document.createElement("div");
+
+                botMessage.className = "bot-message";
+
+                const msg = message.toLowerCase();
+
+                let reply = "";
+
+
+                if (msg.includes("withdraw")) {
+
+                    reply = `
+            To withdraw money:
+            <br><br>
+            1. Add your bank account in profile settings.
+            <br>
+            2. Verify your account details.
+            <br>
+            3. Go to Wallet → Withdraw.
+            <br><br>
+            Your money will be transferred instantly.
+            `;
+
+                } else if (msg.includes("top up")) {
+
+                    reply = `
+            To top up your wallet:
+            <br><br>
+            • Open Wallet
+            <br>
+            • Click Top Up
+            <br>
+            • Transfer money to the provided account
+            <br><br>
+            Your balance updates automatically after payment.
+            `;
+
+                } else if (msg.includes("bonus")) {
+
+                    reply = `
+            Daily login bonuses are credited every 24 hours after successful login.
+            <br><br>
+            Keep checking in daily to earn more rewards.
+            `;
+
+                } else if (msg.includes("password")) {
+
+                    reply = `
+            To change your password:
+            <br><br>
+            • Enter your current password
+            <br>
+            • Enter a new password
+            <br>
+            • Save changes
+            <br><br>
+            Your current password must be correct.
+            `;
+
+                } else if (msg.includes("bank")) {
+
+                    reply = `
+            Bank verification requires:
+            <br><br>
+            • Correct account number
+            <br>
+            • Correct bank selection
+            <br><br>
+            After verification, withdrawals become available.
+            `;
+
+                } else if (msg.includes("account")) {
+
+                    reply = `
+            You can manage:
+            <br><br>
+            • Profile Photo
+            <br>
+            • Nickname
+            <br>
+            • Email
+            <br>
+            • Phone Number
+            <br>
+            • Password
+            <br><br>
+            inside your profile settings.
+            `;
+
+                } else {
+
+                    reply = `
+            Hello 👋
+            <br><br>
+            I am SkillPay AI Support.
+            <br><br>
+            Please explain your issue clearly and I will assist you instantly.
+            `;
+                }
+
+                botMessage.innerHTML = reply;
+
+                chatBody.appendChild(botMessage);
+
+                chatBody.scrollTop = chatBody.scrollHeight;
+
+            }, 1200);
+
+        }
+
+
+        /* ========================= ENTER KEY SEND ========================= */
+
+        document.addEventListener("DOMContentLoaded", () => {
+
+            document.getElementById("supportInput")
+                .addEventListener("keypress", function (e) {
+
+                    if (e.key === "Enter") {
+
+                        sendSupportMessage();
+                    }
+
+                });
+
+        });
+
+    </script>
+
+</body>
+
+</html>

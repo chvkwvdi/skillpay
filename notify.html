@@ -1,0 +1,508 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Notifications | SkillPay</title>
+    <link rel="shortcut icon" href="assets/images/fav__icon.png" type="image/x-icon">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap');
+
+        :root {
+            --primary: #2563EB;
+            --success: #10B981;
+            --warning: #F59E0B;
+            --text-main: #0F172A;
+            --text-slate: #64748B;
+            --bg: #F8FAFC;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+        }
+
+        body {
+            background-color: #F1F5F9;
+            display: flex;
+            justify-content: center;
+        }
+
+        .app-viewport {
+            width: 100%;
+            max-width: 414px;
+            min-height: 100vh;
+            background-color: white;
+            position: relative;
+        }
+
+        /* Header */
+        .header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 24px 20px;
+            position: sticky;
+            top: 0;
+            background: white;
+            z-index: 10;
+            border-bottom: 1px solid #F1F5F9;
+        }
+
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .back-btn {
+            width: 40px;
+            height: 40px;
+            border-radius: 12px;
+            background: #F8FAFC;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-main);
+            text-decoration: none;
+            transition: 0.2s;
+        }
+
+        .back-btn:active {
+            transform: scale(0.9);
+        }
+
+        .header h1 {
+            font-size: 18px;
+            font-weight: 800;
+            color: var(--text-main);
+        }
+
+        .mark-read {
+            font-size: 12px;
+            font-weight: 700;
+            color: var(--primary);
+            cursor: pointer;
+        }
+
+        /* Notification List */
+        .notif-container {
+            padding: 10px 0;
+        }
+
+        .date-label {
+            padding: 15px 20px 10px;
+            font-size: 11px;
+            font-weight: 800;
+            color: var(--text-slate);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .notif-item {
+            display: flex;
+            gap: 15px;
+            padding: 18px 20px;
+            border-bottom: 1px solid #F8FAFC;
+            transition: 0.2s;
+            position: relative;
+        }
+
+        .notif-item.unread {
+            background: #F0F7FF;
+        }
+
+        .notif-item.unread::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            width: 3px;
+            background: var(--primary);
+        }
+
+        .icon-box {
+            width: 48px;
+            height: 48px;
+            border-radius: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            flex-shrink: 0;
+        }
+
+        /* Icon Variants */
+        .icon-success {
+            background: #ECFDF5;
+            color: var(--success);
+        }
+
+        .icon-blue {
+            background: #EFF6FF;
+            color: var(--primary);
+        }
+
+        .icon-warning {
+            background: #FFFBEB;
+            color: var(--warning);
+        }
+
+        .notif-content {
+            flex: 1;
+        }
+
+        .notif-content h4 {
+            font-size: 14px;
+            font-weight: 700;
+            color: var(--text-main);
+            margin-bottom: 4px;
+        }
+
+        .notif-content p {
+            font-size: 12px;
+            color: var(--text-slate);
+            line-height: 1.5;
+            margin-bottom: 8px;
+        }
+
+        .notif-time {
+            font-size: 10px;
+            font-weight: 600;
+            color: #94A3B8;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 100px 40px;
+            display: none;
+        }
+
+        .empty-state i {
+            font-size: 60px;
+            color: #E2E8F0;
+            margin-bottom: 20px;
+        }
+
+        .empty-state p {
+            color: var(--text-slate);
+            font-weight: 600;
+        }
+
+        .loader-screen {
+            position: fixed;
+            inset: 0;
+            background: white;
+            z-index: 999999;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            transition: 0.4s;
+        }
+
+        .loader-logo {
+            width: 90px;
+            animation: pulse 1.2s infinite;
+        }
+
+        .loader-text {
+            margin-top: 15px;
+            font-size: 16px;
+            font-weight: 800;
+            color: #2563EB;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+        }
+
+        @keyframes pulse {
+
+            0% {
+                transform: scale(0.9);
+                opacity: 0.5;
+            }
+
+            50% {
+                transform: scale(1);
+                opacity: 1;
+            }
+
+            100% {
+                transform: scale(0.9);
+                opacity: 0.5;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="app-viewport">
+        <header class="header">
+            <div class="header-left">
+                <a href="index.html" class="back-btn"><i class="fa-solid fa-chevron-left"></i></a>
+                <h1>Notifications</h1>
+            </div>
+            <span class="mark-read" onclick="markAllRead()">Mark all as read</span>
+        </header>
+
+        <div class="notif-container" id="notif-list">
+            <div class="date-label">Today</div>
+
+            <div class="notif-item unread">
+                <div class="icon-box icon-success">
+                    <i class="fa-solid fa-wallet"></i>
+                </div>
+                <div class="notif-content">
+                    <h4>Welcome Bonus Credited</h4>
+                    <p>Congratulations! Your wallet has been credited with ₦3,000 as a signup bonus. Start learning to
+                        earn more!</p>
+                    <span class="notif-time">Just now</span>
+                </div>
+            </div>
+
+            <div class="notif-item unread">
+                <div class="icon-box icon-warning">
+                    <i class="fa-solid fa-circle-exclamation"></i>
+                </div>
+                <div class="notif-content">
+                    <h4>Daily Withdrawal Limit</h4>
+                    <p>Remember, you can only withdraw once every 24 hours. Keep earning to maximize your next payout!
+                    </p>
+                    <span class="notif-time">2 hours ago</span>
+                </div>
+            </div>
+
+            <div class="date-label">Yesterday</div>
+
+            <div class="notif-item">
+                <div class="icon-box icon-blue">
+                    <i class="fa-solid fa-graduation-cap"></i>
+                </div>
+                <div class="notif-content">
+                    <h4>New Course Available</h4>
+                    <p>Advanced JavaScript for Professionals is now live. Complete it to earn a higher task reward.</p>
+                    <span class="notif-time">Yesterday, 4:30 PM</span>
+                </div>
+            </div>
+        </div>
+        <div class="loader-screen" id="loader">
+
+            <img src="assets/images/fav__icon.png" class="loader-logo">
+
+            <div class="loader-text">
+                SkillPay
+            </div>
+
+        </div>
+        <div class="empty-state" id="empty-state">
+            <i class="fa-regular fa-bell-slash"></i>
+            <p>Your inbox is empty</p>
+        </div>
+    </div>
+
+    <script>
+        function markAllRead() {
+            const unreadItems = document.querySelectorAll('.notif-item.unread');
+            unreadItems.forEach(item => {
+                item.classList.remove('unread');
+            });
+            // Clear the notification dot on the dashboard
+            localStorage.setItem('new_notif', 'false');
+            alert("All notifications marked as read!");
+        }
+
+        // Logic to show empty state if no notifications exist
+        function checkEmpty() {
+            const list = document.getElementById('notif-list');
+            const empty = document.getElementById('empty-state');
+            if (list.children.length === 0) {
+                list.style.display = 'none';
+                empty.style.display = 'block';
+            }
+        }
+        function renderNotifications() {
+            const list = JSON.parse(localStorage.getItem('skillpay_notifications')) || [];
+            const container = document.getElementById('notif-list');
+
+            if (list.length === 0) {
+                document.getElementById('empty-state').style.display = 'block';
+                return;
+            }
+
+            container.innerHTML = '<div class="date-label">Today</div>';
+
+            list.forEach(notif => {
+                const iconClass = notif.type === 'warning' ? 'icon-warning' : 'icon-success';
+                const icon = notif.type === 'warning' ? 'fa-bullhorn' : 'fa-wallet';
+
+                container.innerHTML += `
+            <div class="notif-item ${notif.unread ? 'unread' : ''}">
+                <div class="icon-box ${iconClass}">
+                    <i class="fa-solid ${icon}"></i>
+                </div>
+                <div class="notif-content">
+                    <h4>${notif.title}</h4>
+                    <p>${notif.message}</p>
+                    <span class="notif-time">${notif.time}</span>
+                </div>
+            </div>
+        `;
+            });
+        }
+        function checkInternetConnection() {
+
+            // OFFLINE
+            if (!navigator.onLine) {
+
+                document.body.innerHTML = `
+        <div style="
+            width:100%;
+            height:100vh;
+            display:flex;
+            align-items:center;
+            justify-content:center;
+            background:#F8FAFC;
+            font-family:'Plus Jakarta Sans',sans-serif;
+            padding:20px;
+        ">
+            <div style="
+                width:100%;
+                max-width:380px;
+                background:#fff;
+                padding:35px 25px;
+                border-radius:28px;
+                text-align:center;
+                box-shadow:0 10px 30px rgba(0,0,0,0.05);
+            ">
+
+                <div style="
+                    width:90px;
+                    height:90px;
+                    margin:auto;
+                    border-radius:50%;
+                    background:#EFF6FF;
+                    display:flex;
+                    align-items:center;
+                    justify-content:center;
+                    margin-bottom:20px;
+                ">
+                    <i class="fa-solid fa-wifi-slash"
+                        style="
+                            font-size:40px;
+                            color:#2563EB;
+                        ">
+                    </i>
+                </div>
+
+                <h2 style="
+                    font-size:24px;
+                    font-weight:800;
+                    color:#0F172A;
+                    margin-bottom:10px;
+                ">
+                    No Internet Connection
+                </h2>
+
+                <p style="
+                    font-size:14px;
+                    line-height:1.7;
+                    color:#64748B;
+                    margin-bottom:25px;
+                ">
+                    Please turn on your mobile data or Wi-Fi
+                    to continue using SkillPay.
+                </p>
+
+                <button onclick="window.location.reload()"
+                    style="
+                        width:100%;
+                        border:none;
+                        background:#2563EB;
+                        color:white;
+                        padding:16px;
+                        border-radius:18px;
+                        font-size:15px;
+                        font-weight:800;
+                        cursor:pointer;
+                    ">
+                    Retry Connection
+                </button>
+
+            </div>
+        </div>
+        `;
+            }
+        }
+
+        // Run check immediately
+        checkInternetConnection();
+
+        // Detect when internet goes OFF
+        window.addEventListener("offline", () => {
+            checkInternetConnection();
+        });
+
+        // Detect when internet comes back
+        window.addEventListener("online", () => {
+            window.location.reload();
+        });
+        // Call render on load
+        document.addEventListener('DOMContentLoaded', renderNotifications);
+        // PAGE LOAD ANIMATION
+
+        window.addEventListener('load', () => {
+
+            setTimeout(() => {
+
+                document.getElementById('loader').style.opacity = '0';
+
+                setTimeout(() => {
+
+                    document.getElementById('loader').style.display = 'none';
+
+                }, 400);
+
+            }, 1500);
+
+        });
+
+        // PAGE TRANSITION ANIMATION
+
+        document.querySelectorAll('a').forEach(link => {
+
+            link.addEventListener('click', function (e) {
+
+                const href = this.getAttribute('href');
+
+                if (href && href !== '#') {
+
+                    e.preventDefault();
+
+                    const loader =
+                        document.getElementById('loader');
+
+                    loader.style.display = 'flex';
+
+                    loader.style.opacity = '1';
+
+                    setTimeout(() => {
+
+                        window.location.href = href;
+
+                    }, 700);
+
+                }
+
+            });
+
+        });
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,505 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>SkillPay | Professional Register</title>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap"
+        rel="stylesheet">
+    <link rel="shortcut icon" href="assets/images/fav__icon.png" type="image/x-icon">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #2563EB;
+            --dark: #0F172A;
+            --slate: #64748B;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+        }
+
+        body {
+            background: #fff;
+            color: var(--dark);
+            display: flex;
+            justify-content: center;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 414px;
+            padding: 30px 24px;
+            min-height: 100vh;
+        }
+
+        .header h1 {
+            font-size: 26px;
+            font-weight: 800;
+            letter-spacing: -0.5px;
+        }
+
+        .header p {
+            color: var(--slate);
+            font-size: 14px;
+            margin: 8px 0 25px;
+        }
+
+        /* Social Buttons */
+        .social-btn {
+            width: 100%;
+            border: 1.5px solid #F1F5F9;
+            padding: 16px;
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            font-size: 15px;
+            font-weight: 700;
+            cursor: pointer;
+            margin-bottom: 12px;
+            transition: 0.2s;
+        }
+
+        .social-btn:active {
+            background: #F8FAFC;
+            transform: scale(0.98);
+        }
+
+        .divider {
+            display: flex;
+            align-items: center;
+            text-align: center;
+            color: #CBD5E1;
+            margin: 25px 0;
+            font-size: 12px;
+            font-weight: 700;
+        }
+
+        .divider::before,
+        .divider::after {
+            content: '';
+            flex: 1;
+            border-bottom: 1.5px solid #F1F5F9;
+        }
+
+        .divider span {
+            padding: 0 10px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 13px;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+
+        .input-box {
+            width: 100%;
+            padding: 16px;
+            border-radius: 14px;
+            border: 1.5px solid #F1F5F9;
+            background: #F8FAFC;
+            font-size: 15px;
+            font-weight: 600;
+            outline: none;
+        }
+
+        .btn-main {
+            width: 100%;
+            background: var(--primary);
+            color: #fff;
+            border: none;
+            padding: 18px;
+            border-radius: 18px;
+            font-size: 16px;
+            font-weight: 800;
+            cursor: pointer;
+        }
+
+        /* OTP Section */
+        #verify-section {
+            display: none;
+            text-align: center;
+            animation: fadeIn 0.4s ease;
+        }
+
+        .otp-input {
+            width: 50px;
+            height: 60px;
+            border: 2px solid #E2E8F0;
+            border-radius: 12px;
+            text-align: center;
+            font-size: 24px;
+            font-weight: 800;
+            margin: 0 4px;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+
+            to {
+                opacity: 1;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+
+    <div class="container" id="signup-section">
+        <div class="header">
+            <h1>Create Account</h1>
+            <p>Start your professional journey.</p>
+        </div>
+
+        <div class="social-btn" onclick="window.location.href='https://accounts.google.com/signin'">
+            <img src="https://www.gstatic.com/images/branding/product/1x/googleg_48dp.png" width="20"> Continue with
+            Google
+        </div>
+        <div class="social-btn" onclick="window.location.href='https://appleid.apple.com/auth/authorize'">
+            <i class="fa-brands fa-apple" style="font-size: 20px;"></i> Continue with Apple
+        </div>
+
+        <div class="divider"><span>Or Register Manually</span></div>
+
+        <div class="form-group">
+            <label>Full Name</label>
+            <input type="text" id="name" class="input-box" placeholder="John Doe">
+        </div>
+
+        <div class="form-group">
+            <label>Date of Birth</label>
+            <input type="date" id="dob" class="input-box">
+        </div>
+
+        <div class="form-group">
+            <label>Verify Via</label>
+            <select id="method" class="input-box">
+                <option value="Email">Email Address</option>
+                <option value="Phone">Mobile Number</option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label>Contact Details</label>
+            <input type="text" id="contact" class="input-box" placeholder="Enter email or phone">
+        </div>
+
+        <div class="form-group">
+            <label>Password</label>
+            <input type="password" id="pass" class="input-box" placeholder="••••••••">
+        </div>
+
+        <button class="btn-main" onclick="sendCode()">Request Verification Code</button>
+        <p style="text-align: center; margin-top: 25px; font-size: 14px; color: #64748B;">
+            Already have an account? <a href="login.html"
+                style="color: #2563EB; text-decoration: none; font-weight: 700;">Sign In</a>
+        </p>
+    </div>
+
+    <div class="container" id="verify-section">
+        <div class="header">
+            <h1>Check your <span id="method-label">Inbox</span></h1>
+            <p>We've sent a 4-digit code to <br><strong id="target-display"></strong></p>
+        </div>
+
+        <div style="margin: 40px 0;">
+            <input type="text" class="otp-input" maxlength="1" onkeyup="moveFocus(this, 1)">
+            <input type="text" class="otp-input" maxlength="1" onkeyup="moveFocus(this, 2)">
+            <input type="text" class="otp-input" maxlength="1" onkeyup="moveFocus(this, 3)">
+            <input type="text" class="otp-input" maxlength="1" id="last-otp">
+        </div>
+
+        <button class="btn-main" onclick="verifyCode()">Verify & Create Account</button>
+        <p style="margin-top: 25px; font-size: 13px; color: var(--slate);">Didn't get it? <span
+                style="color: var(--primary); font-weight: 800; cursor: pointer;" onclick="sendCode()">Resend
+                Code</span></p>
+    </div>
+    <script>
+
+        let generatedOTP = "";
+
+        function sendCode() {
+
+            const name =
+                document.getElementById('name').value.trim();
+
+            const dobValue =
+                document.getElementById('dob').value;
+
+            const contact =
+                document.getElementById('contact').value.trim();
+
+            const pass =
+                document.getElementById('pass').value.trim();
+
+            const method =
+                document.getElementById('method').value;
+
+            if (!name || !dobValue || !contact || !pass) {
+
+                alert("Please fill all fields.");
+
+                return;
+            }
+
+            const dob = new Date(dobValue);
+
+            const age =
+                new Date().getFullYear() - dob.getFullYear();
+
+            if (age < 13) {
+
+                alert("You must be at least 13 years old.");
+
+                return;
+            }
+
+            generatedOTP =
+                Math.floor(1000 + Math.random() * 9000).toString();
+
+            alert(
+                `SKILLPAY VERIFICATION\nYour OTP Code is: ${generatedOTP}`
+            );
+
+            localStorage.setItem('temp_reg', JSON.stringify({
+                name,
+                contact,
+                pass,
+                method
+            }));
+
+            document.getElementById('signup-section').style.display = 'none';
+
+            document.getElementById('verify-section').style.display = 'block';
+
+            document.getElementById('target-display').innerText = contact;
+
+            document.getElementById('method-label').innerText =
+                method === "Phone"
+                    ? "Phone"
+                    : "Inbox";
+        }
+
+        function moveFocus(current, index) {
+
+            const inputs =
+                document.querySelectorAll('.otp-input');
+
+            if (current.value.length === 1 &&
+                inputs[index]) {
+
+                inputs[index].focus();
+            }
+        }
+
+        function verifyCode() {
+
+            const inputs =
+                document.querySelectorAll('.otp-input');
+
+            let enteredCode = "";
+
+            inputs.forEach(input => {
+                enteredCode += input.value;
+            });
+
+            if (enteredCode === generatedOTP) {
+
+                const data =
+                    JSON.parse(localStorage.getItem('temp_reg'));
+
+                const finalUser = {
+
+                    name: data.name,
+
+                    email:
+                        data.contact.includes('@')
+                            ? data.contact
+                            : "",
+
+                    phone:
+                        !data.contact.includes('@')
+                            ? data.contact
+                            : "",
+
+                    pass: data.pass,
+
+                    // WELCOME BONUS
+                    balance: 3000,
+
+                    deposited: 0,
+
+                    withdrawable: false,
+
+                    referralCode:
+                        'SKP' +
+                        Math.floor(
+                            100000 + Math.random() * 900000
+                        ),
+
+                    transactions: [
+                        {
+                            type: 'Welcome Bonus',
+                            amount: 3000,
+                            date: new Date().toLocaleString()
+                        }
+                    ]
+                };
+
+                localStorage.setItem(
+                    'skillpay_user',
+                    JSON.stringify(finalUser)
+                );
+
+                localStorage.setItem(
+                    'currentUser',
+                    JSON.stringify(finalUser)
+                );
+
+                localStorage.setItem(
+                    'skillpay_wallet',
+                    JSON.stringify({
+                        balance: 3000
+                    })
+                );
+
+                localStorage.setItem(
+                    'isLoggedIn',
+                    'true'
+                );
+
+                localStorage.setItem(
+                    'new_notif',
+                    'true'
+                );
+
+                localStorage.removeItem('temp_reg');
+
+                alert(
+                    "Account created successfully. ₦3,000 bonus added."
+                );
+
+                window.location.href = 'index.html';
+
+            } else {
+
+                alert("Incorrect OTP code.");
+
+            }
+        }
+        function checkInternetConnection() {
+
+            // OFFLINE
+            if (!navigator.onLine) {
+
+                document.body.innerHTML = `
+        <div style="
+            width:100%;
+            height:100vh;
+            display:flex;
+            align-items:center;
+            justify-content:center;
+            background:#F8FAFC;
+            font-family:'Plus Jakarta Sans',sans-serif;
+            padding:20px;
+        ">
+            <div style="
+                width:100%;
+                max-width:380px;
+                background:#fff;
+                padding:35px 25px;
+                border-radius:28px;
+                text-align:center;
+                box-shadow:0 10px 30px rgba(0,0,0,0.05);
+            ">
+
+                <div style="
+                    width:90px;
+                    height:90px;
+                    margin:auto;
+                    border-radius:50%;
+                    background:#EFF6FF;
+                    display:flex;
+                    align-items:center;
+                    justify-content:center;
+                    margin-bottom:20px;
+                ">
+                    <i class="fa-solid fa-wifi-slash"
+                        style="
+                            font-size:40px;
+                            color:#2563EB;
+                        ">
+                    </i>
+                </div>
+
+                <h2 style="
+                    font-size:24px;
+                    font-weight:800;
+                    color:#0F172A;
+                    margin-bottom:10px;
+                ">
+                    No Internet Connection
+                </h2>
+
+                <p style="
+                    font-size:14px;
+                    line-height:1.7;
+                    color:#64748B;
+                    margin-bottom:25px;
+                ">
+                    Please turn on your mobile data or Wi-Fi
+                    to continue using SkillPay.
+                </p>
+
+                <button onclick="window.location.reload()"
+                    style="
+                        width:100%;
+                        border:none;
+                        background:#2563EB;
+                        color:white;
+                        padding:16px;
+                        border-radius:18px;
+                        font-size:15px;
+                        font-weight:800;
+                        cursor:pointer;
+                    ">
+                    Retry Connection
+                </button>
+
+            </div>
+        </div>
+        `;
+            }
+        }
+
+        // Run check immediately
+        checkInternetConnection();
+
+        // Detect when internet goes OFF
+        window.addEventListener("offline", () => {
+            checkInternetConnection();
+        });
+
+        // Detect when internet comes back
+        window.addEventListener("online", () => {
+            window.location.reload();
+        });
+    </script>
+</body>
+
+</html>

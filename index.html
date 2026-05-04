@@ -1,0 +1,632 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>SkillPay Dashboard</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="shortcut icon" href="assets/images/fav__icon.png" type="image/x-icon">
+
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap');
+
+        :root {
+            --primary-blue: #2563EB;
+            --navy-dark: #101030;
+            --text-main: #0F172A;
+            --text-slate: #64748B;
+            --bg-light: #F8FAFC;
+            --white: #FFFFFF;
+            --border-gray: #F1F5F9;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            background-color: #F1F5F9;
+            display: flex;
+            justify-content: center;
+        }
+
+        .app-viewport {
+            width: 100%;
+            max-width: 414px;
+            height: 100vh;
+            background-color: var(--white);
+            position: relative;
+            overflow-y: auto;
+            overflow-x: hidden;
+            padding-bottom: 90px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 24px 20px;
+        }
+
+        .header h1 {
+            font-size: 20px;
+            font-weight: 800;
+            color: var(--text-main);
+        }
+
+        .header p {
+            font-size: 13px;
+            color: var(--text-slate);
+            font-weight: 500;
+        }
+
+        .header i {
+            font-size: 20px;
+            color: var(--text-slate);
+            cursor: pointer;
+            position: relative;
+        }
+
+        .notification-dot {
+            position: absolute;
+            top: -2px;
+            right: -2px;
+            width: 8px;
+            height: 8px;
+            background: #EF4444;
+            border-radius: 50%;
+            border: 2px solid white;
+            display: none;
+        }
+
+        .promo-card {
+            background: linear-gradient(135deg, #1E40AF 0%, #3B82F6 100%);
+            margin: 0 20px 24px;
+            padding: 24px;
+            border-radius: 24px;
+            color: var(--white);
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+        }
+
+        .promo-card .text-area {
+            width: 70%;
+            z-index: 2;
+        }
+
+        .promo-card span {
+            background: rgba(255, 255, 255, 0.15);
+            padding: 5px 10px;
+            border-radius: 100px;
+            font-size: 10px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .promo-card h2 {
+            font-size: 18px;
+            font-weight: 700;
+            margin: 10px 0 15px;
+        }
+
+        .upgrade-btn {
+            background: var(--white);
+            color: #1E40AF;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 12px;
+            font-size: 13px;
+            font-weight: 800;
+            cursor: pointer;
+        }
+
+        .rocket-icon {
+            position: absolute;
+            right: -15px;
+            bottom: 10px;
+            font-size: 90px;
+            opacity: 0.15;
+            transform: rotate(15deg);
+        }
+
+        .wallet-card {
+            background: var(--white);
+            margin: 0 20px 24px;
+            padding: 20px;
+            border-radius: 20px;
+            border: 1px solid var(--border-gray);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .wallet-card .label {
+            font-size: 11px;
+            font-weight: 700;
+            color: var(--text-slate);
+            text-transform: uppercase;
+        }
+
+        .wallet-card .balance {
+            font-size: 24px;
+            font-weight: 800;
+            color: var(--text-main);
+            margin-top: 2px;
+        }
+
+        .topup-btn {
+            background: #EFF6FF;
+            color: var(--primary-blue);
+            border: 1px solid #DBEAFE;
+            padding: 10px 18px;
+            border-radius: 12px;
+            font-size: 13px;
+            font-weight: 700;
+            cursor: pointer;
+        }
+
+        .actions-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 15px;
+            padding: 0 20px;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+
+        .action-item {
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+
+        .action-item:active {
+            transform: scale(0.9);
+        }
+
+        .action-item .icon-box {
+            width: 55px;
+            height: 55px;
+            border-radius: 18px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 8px;
+            font-size: 18px;
+        }
+
+        .action-item span {
+            font-size: 11px;
+            font-weight: 700;
+            color: #64748B;
+        }
+
+        .section-title {
+            font-size: 16px;
+            font-weight: 800;
+            color: var(--text-main);
+        }
+
+        .course-card {
+            background: var(--white);
+            margin: 0 20px;
+            padding: 16px;
+            border-radius: 20px;
+            border: 1px solid var(--border-gray);
+            display: flex;
+            gap: 16px;
+            align-items: center;
+        }
+
+        .course-image {
+            width: 64px;
+            height: 64px;
+            border-radius: 16px;
+            background: #000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .js-logo {
+            color: #F7DF1E;
+            font-size: 24px;
+            font-weight: 900;
+        }
+
+        .course-details {
+            flex: 1;
+        }
+
+        .course-details h4 {
+            font-size: 14px;
+            font-weight: 700;
+            color: var(--text-main);
+        }
+
+        .course-details p {
+            font-size: 11px;
+            color: var(--text-slate);
+            font-weight: 500;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 6px;
+            background: #F1F5F9;
+            border-radius: 100px;
+            margin-top: 10px;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: var(--primary-blue);
+            border-radius: 100px;
+            width: 35%;
+        }
+
+        .progress-text {
+            font-size: 11px;
+            font-weight: 700;
+            color: var(--text-slate);
+        }
+
+        /* FIXED NAV - Lower Z-Index + Centering */
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100%;
+            max-width: 448px;
+            height: 75px;
+            background: white;
+            border-top: 1px solid #064fe2;
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            border-radius: 24px 24px 0px 0px;
+            z-index: 100;
+            box-shadow: 0 -5px 15px rgba(0, 0, 0, 0.02);
+        }
+
+        .nav-link {
+            text-decoration: none;
+            color: #94a3b8;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 4px;
+            transition: 0.2s;
+        }
+
+        .nav-link.active {
+            color: var(--primary-blue);
+        }
+
+        .nav-link i {
+            font-size: 18px;
+        }
+
+        .nav-link span {
+            font-size: 10px;
+            font-weight: 700;
+        }
+
+        .loader-screen {
+            position: fixed;
+            inset: 0;
+            background: white;
+            z-index: 999999;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            transition: 0.4s;
+        }
+
+        .loader-logo {
+            width: 90px;
+            animation: pulse 1.2s infinite;
+        }
+
+        .loader-text {
+            margin-top: 15px;
+            font-size: 16px;
+            font-weight: 800;
+            color: #2563EB;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+        }
+
+        @keyframes pulse {
+
+            0% {
+                transform: scale(0.9);
+                opacity: 0.5;
+            }
+
+            50% {
+                transform: scale(1);
+                opacity: 1;
+            }
+
+            100% {
+                transform: scale(0.9);
+                opacity: 0.5;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="app-viewport">
+        <header class="header">
+            <div>
+                <h1 id="user-greeting">Hello, User 👋</h1>
+                <p>Let's learn and earn</p>
+            </div>
+            <i class="fa-regular fa-bell" onclick="location.href='notify.html'">
+                <div class="notification-dot" id="notif-dot"></div>
+            </i>
+        </header>
+
+        <div class="promo-card">
+            <div class="text-area">
+                <span>3-Day Free Trial</span>
+                <h2>You have 3 days left</h2>
+                <button class="upgrade-btn" onclick="location.href='upgrade.html'">Upgrade Now</button>
+            </div>
+            <div class="rocket-icon">🚀</div>
+        </div>
+
+        <div class="wallet-card">
+            <div>
+                <p class="label">Wallet Balance</p>
+                <p class="balance" id="dash-balance">₦0</p>
+            </div>
+            <button class="topup-btn" onclick="location.href='earn.html?action=topup'">+ Top Up</button>
+        </div>
+
+        <div class="actions-grid">
+            <div class="action-item" onclick="location.href='courses.html'">
+                <div class="icon-box" style="background: #EFF6FF; color: #2563EB;"><i class="fa-solid fa-book-open"></i>
+                </div>
+                <span>Learn</span>
+            </div>
+            <div class="action-item" onclick="location.href='earn.html'">
+                <div class="icon-box" style="background: #FFFBEB; color: #D97706;"><i
+                        class="fa-solid fa-sack-dollar"></i></div>
+                <span>Earn</span>
+            </div>
+            <div class="action-item" onclick="location.href='refer.html'">
+                <div class="icon-box" style="background: #FEF2F2; color: #DC2626;"><i
+                        class="fa-solid fa-user-group"></i></div>
+                <span>Refer</span>
+            </div>
+            <div class="action-item" onclick="location.href='more.html'">
+                <div class="icon-box" style="background: #F3F4F6; color: #4B5563;">
+                    <i class="fas fa-ellipsis-h"></i>
+                </div>
+                <span>More</span>
+            </div>
+        </div>
+
+        <div
+            style="padding: 0 20px; display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
+            <h3 class="section-title">Continue Learning</h3>
+            <a href="courses.html"
+                style="text-decoration: none; font-size: 12px; font-weight: 700; color: var(--primary-blue);">View
+                all</a>
+        </div>
+
+        <div class="course-card">
+            <div class="course-image">
+                <div class="js-logo">JS</div>
+            </div>
+            <div class="course-details">
+                <h4>Web Development</h4>
+                <p>for Beginners</p>
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 10px;">
+                    <span class="progress-text">35% Complete</span>
+                </div>
+                <div class="progress-bar">
+                    <div class="progress-fill"></div>
+                </div>
+            </div>
+        </div>
+        <div class="loader-screen" id="loader">
+
+            <img src="assets/images/fav__icon.png" class="loader-logo">
+
+            <div class="loader-text">
+                SkillPay
+            </div>
+
+        </div>
+        <nav class="bottom-nav">
+            <a href="index.html" class="nav-link active"><i class="fa-solid fa-house"></i><span>Home</span></a>
+            <a href="courses.html" class="nav-link"><i class="fa-solid fa-book"></i><span>Courses</span></a>
+            <a href="earn.html" class="nav-link"><i class="fa-solid fa-sack-dollar"></i><span>Earn</span></a>
+            <a href="vault.html" class="nav-link"><i class="fas fa-chart-line"></i><span>Savings</span></a>
+            <a href="profile.html" class="nav-link"><i class="fa-solid fa-user"></i><span>Profile</span></a>
+        </nav>
+    </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+
+            // =========================
+            // CHECK INTERNET CONNECTION
+            // =========================
+            if (!navigator.onLine) {
+                document.body.innerHTML = `
+            <div style="
+                display:flex;
+                justify-content:center;
+                align-items:center;
+                height:100vh;
+                font-family:'Plus Jakarta Sans',sans-serif;
+                text-align:center;
+                padding:20px;
+                background:#F8FAFC;
+            ">
+                <div>
+                    <i class="fa-solid fa-wifi"
+                        style="font-size:50px;color:#2563EB;margin-bottom:20px;"></i>
+
+                    <h2 style="font-size:24px;color:#101030;margin-bottom:10px;">
+                        No Internet Connection
+                    </h2>
+
+                    <p style="color:#64748B;">
+                        Please turn on your internet connection.
+                    </p>
+                </div>
+            </div>
+            `;
+                return;
+            }
+
+            // =========================
+            // LOGIN CHECK
+            // =========================
+            const currentUser = JSON.parse(localStorage.getItem('currentUser'));
+            const loggedIn = localStorage.getItem('isLoggedIn');
+
+            if (!currentUser) {
+                window.location.href = 'signup.html';
+                return;
+            }
+
+            if (loggedIn !== 'true') {
+                window.location.href = 'login.html';
+                return;
+            }
+
+            // =========================
+            // DEFAULT WALLET
+            // =========================
+            let walletData = JSON.parse(localStorage.getItem('skillpay_wallet'));
+
+            if (!walletData) {
+                walletData = {
+                    balance: 3000,
+                    transactions: [
+                        {
+                            type: "Welcome Bonus",
+                            amount: 3000,
+                            date: new Date().toLocaleDateString()
+                        }
+                    ]
+                };
+
+                localStorage.setItem(
+                    'skillpay_wallet',
+                    JSON.stringify(walletData)
+                );
+            }
+
+            // =========================
+            // UPDATE BALANCE
+            // =========================
+            document.getElementById('dash-balance').innerText =
+                `₦${walletData.balance.toLocaleString()}`;
+
+            // =========================
+            // USER GREETING
+            // =========================
+            const firstName =
+                currentUser.name ?
+                    currentUser.name.split(' ')[0] :
+                    'User';
+
+            document.getElementById('user-greeting').innerText =
+                `Hello, ${firstName} 👋`;
+
+            // =========================
+            // NOTIFICATION DOT
+            // =========================
+            const hasNotif =
+                localStorage.getItem('new_notif') === 'true';
+
+            if (hasNotif) {
+                document.getElementById('notif-dot').style.display = 'block';
+            }
+
+            // =========================
+            // OPTIONAL DASH NAME
+            // =========================
+            const displayName =
+                currentUser.nickname ?
+                    currentUser.nickname :
+                    currentUser.name;
+
+            const dashName = document.getElementById('dashName');
+
+            if (dashName) {
+                dashName.innerText = displayName;
+            }
+
+        });
+        // PAGE LOAD ANIMATION
+
+        window.addEventListener('load', () => {
+
+            setTimeout(() => {
+
+                document.getElementById('loader').style.opacity = '0';
+
+                setTimeout(() => {
+
+                    document.getElementById('loader').style.display = 'none';
+
+                }, 400);
+
+            }, 1500);
+
+        });
+
+        // PAGE TRANSITION ANIMATION
+
+        document.querySelectorAll('a').forEach(link => {
+
+            link.addEventListener('click', function (e) {
+
+                const href = this.getAttribute('href');
+
+                if (href && href !== '#') {
+
+                    e.preventDefault();
+
+                    const loader =
+                        document.getElementById('loader');
+
+                    loader.style.display = 'flex';
+
+                    loader.style.opacity = '1';
+
+                    setTimeout(() => {
+
+                        window.location.href = href;
+
+                    }, 700);
+
+                }
+
+            });
+
+        });
+    </script>
+</body>
+
+</html>

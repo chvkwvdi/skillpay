@@ -1,0 +1,127 @@
+body {
+  background-image: url(./showcase.jpg);
+  width: 500px;
+  height: 200px;
+}
+
+#navbar {
+  padding: 20px 5px;
+  margin: 20px 10px;
+  text-decoration: underline;
+  background-color: rgb(14, 8, 8);
+  color: aliceblue;
+  text-decoration-color: #371ea5;
+}
+
+#mainbar {
+  list-style: 0;
+  padding: 10px;
+  text-align: center;
+}
+
+.manuitem {
+  list-style: 0;
+  display: flex;
+  text-align: center;
+  justify-content: center;
+}
+
+.menuitem li {
+  list-style: none;
+  text-align: center;
+  display: inline;
+  margin: 20px 10px;
+}
+
+.menuitem li a {
+  text-decoration-line: none;
+  text-align: center;
+  padding: 10px;
+}
+
+.sidebar {
+  text-decoration: wavy;
+  color: black;
+  font-size: medium;
+  background-image: url("./showcase.jpg");
+}
+
+.circle {
+  width: 200px;
+  height: 200px;
+  margin: 50px 80px;
+  background-color: #e744fd;
+  text-decoration: dotted;
+  color: #ffffff;
+  text-align: center;
+  padding: 10px;
+  border-radius: 50%;
+}
+
+.circle1 {
+  width: 200px;
+  height: 200px;
+  margin: 50px 80px;
+  background-color: rgb(150, 165, 19);
+  padding: 10px;
+  border-radius: 110px;
+}
+
+.circle2 {
+  width: 200px;
+  height: 200px;
+  margin: 50px 80px;
+  background-color: rgb(255, 20, 149);
+  color: #ffffff;
+  padding: 10px;
+  border-radius: 110px;
+  text-align: center;
+  text-decoration: underline;
+  text-decoration-thickness: 10%;
+  text-decoration-color: #3b6397;
+}
+.circle2 p {
+  text-align: center;
+}
+
+.square {
+  width: 200px;
+  height: 200px;
+  margin: 80px 80px;
+  background-color: #aa3722;
+}
+
+.square1 {
+  width: 200px;
+  height: 200px;
+  margin: 80px 80px;
+  background-color: #371ea5;
+}
+
+.square2 {
+  width: 200px;
+  height: 200px;
+  margin: 80px 80px;
+  background-color: #ff4400;
+}
+
+.triangle {
+  width: 400px;
+  height: 200px;
+  margin: 80px 50px;
+  background-color: #6c5abb;
+}
+
+.triangle1 {
+  width: 400px;
+  height: 200px;
+  margin: 80px 50px;
+  background-color: #e9fd34;
+}
+
+.triangle2 {
+  width: 400px;
+  height: 200px;
+  margin: 80px 50px;
+  background-color: #fd445f;
+}

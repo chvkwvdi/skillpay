@@ -1,0 +1,31 @@
+/* Shared Page Transition Animation */
+.page-animate-in {
+  animation: slideIn 0.8s cubic-bezier(0.25, 1, 0.5, 1) forwards;
+}
+
+@keyframes slideIn {
+  from {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+/* Ensure the body doesn't show a horizontal scrollbar during the slide */
+body {
+  overflow-x: hidden;
+  width: 100vw;
+}
+@keyframes slideOut {
+  from {
+    transform: translateX(0);
+    opacity: 1;
+  }
+  to {
+    transform: translateX(-100%);
+    opacity: 0;
+  }
+}

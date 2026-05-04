@@ -1,0 +1,549 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Savings | SkillPay</title>
+    <link rel="shortcut icon" href="assets/images/fav__icon.png" type="image/x-icon">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap');
+
+        :root {
+            --primary-blue: #2563EB;
+            --navy-dark: #101030;
+            --text-main: #0F172A;
+            --text-slate: #64748B;
+            --bg-light: #F8FAFC;
+            --white: #FFFFFF;
+            --border-gray: #F1F5F9;
+            --success: #10B981;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+        }
+
+        body {
+            background-color: var(--border-gray);
+            display: flex;
+            justify-content: center;
+        }
+
+        .app-viewport {
+            width: 100%;
+            max-width: 414px;
+            min-height: 100vh;
+            background: var(--white);
+            padding-bottom: 90px;
+            position: relative;
+        }
+
+        /* Header Section */
+        .savings-header {
+            background: var(--navy-dark);
+            color: var(--white);
+            padding: 40px 20px 60px;
+            border-radius: 0 0 40px 40px;
+        }
+
+        .savings-header h1 {
+            font-size: 24px;
+            font-weight: 800;
+            margin-bottom: 8px;
+        }
+
+        .savings-header p {
+            font-size: 14px;
+            opacity: 0.8;
+            line-height: 1.4;
+        }
+
+        .balance-pill {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 8px 15px;
+            border-radius: 100px;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 12px;
+            margin-top: 15px;
+        }
+
+        /* Savings Tiers Grid */
+        .section-label {
+            padding: 30px 20px 15px;
+            font-size: 14px;
+            font-weight: 800;
+            color: var(--text-slate);
+            text-transform: uppercase;
+        }
+
+        .tiers-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            padding: 0 20px;
+        }
+
+        .tier-card {
+            background: var(--white);
+            padding: 20px;
+            border-radius: 24px;
+            border: 1px solid var(--border-gray);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            transition: 0.2s;
+            cursor: pointer;
+        }
+
+        .tier-card:active {
+            transform: scale(0.96);
+            border-color: var(--primary-blue);
+        }
+
+        .tier-icon {
+            width: 45px;
+            height: 45px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            margin-bottom: 12px;
+        }
+
+        .t1 {
+            background: #EFF6FF;
+            color: var(--primary-blue);
+        }
+
+        .t2 {
+            background: #ECFDF5;
+            color: var(--success);
+        }
+
+        .t3 {
+            background: #FFFBEB;
+            color: #D97706;
+        }
+
+        .t4 {
+            background: #F5F3FF;
+            color: #7C3AED;
+        }
+
+        .tier-card h3 {
+            font-size: 13px;
+            font-weight: 700;
+            color: var(--text-slate);
+        }
+
+        .tier-card h4 {
+            font-size: 18px;
+            font-weight: 800;
+            color: var(--text-main);
+            margin: 4px 0;
+        }
+
+        .tier-card span {
+            font-size: 11px;
+            font-weight: 800;
+            color: var(--success);
+            background: #ECFDF5;
+            padding: 2px 8px;
+            border-radius: 5px;
+        }
+
+        /* Current Active Savings */
+        .active-section {
+            margin-top: 30px;
+            padding: 0 20px;
+        }
+
+        .active-card {
+            background: var(--white);
+            border: 1px solid var(--border-gray);
+            padding: 15px;
+            border-radius: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .active-info h5 {
+            font-size: 14px;
+            font-weight: 700;
+            color: var(--text-main);
+        }
+
+        .active-info p {
+            font-size: 11px;
+            color: var(--text-slate);
+        }
+
+        /* Bottom Nav */
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100%;
+            max-width: 448px;
+            height: 75px;
+            background: white;
+            border-top: 1px solid #064fe2;
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            border-radius: 24px 24px 0px 0px;
+            z-index: 100;
+            box-shadow: 0 -5px 15px rgba(0, 0, 0, 0.02);
+        }
+
+        .nav-link {
+            text-decoration: none;
+            color: #94a3b8;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 4px;
+            transition: 0.2s;
+        }
+
+        .nav-link.active {
+            color: var(--primary-blue);
+        }
+
+        .nav-link i {
+            font-size: 18px;
+        }
+
+        .nav-link span {
+            font-size: 10px;
+            font-weight: 800;
+        }
+
+        .loader-screen {
+            position: fixed;
+            inset: 0;
+            background: white;
+            z-index: 999999;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            transition: 0.4s;
+        }
+
+        .loader-logo {
+            width: 90px;
+            animation: pulse 1.2s infinite;
+        }
+
+        .loader-text {
+            margin-top: 15px;
+            font-size: 16px;
+            font-weight: 800;
+            color: #2563EB;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+        }
+
+        @keyframes pulse {
+
+            0% {
+                transform: scale(0.9);
+                opacity: 0.5;
+            }
+
+            50% {
+                transform: scale(1);
+                opacity: 1;
+            }
+
+            100% {
+                transform: scale(0.9);
+                opacity: 0.5;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="app-viewport">
+        <div class="savings-header">
+            <h1>Grow Your Wealth 📈</h1>
+            <p>Select a professional growth plan to lock your funds and earn guaranteed returns.</p>
+            <div class="balance-pill">
+                <i class="fa-solid fa-wallet"></i>
+                <span id="wallet-display">Wallet: ₦0.00</span>
+            </div>
+        </div>
+
+        <div class="section-label">Investment Plans</div>
+
+        <div class="tiers-container">
+            <div class="tier-card" onclick="lockMoney('Starter Saver', 10000, 10, 7)">
+                <div class="tier-icon t1"><i class="fa-solid fa-seedling"></i></div>
+                <h3>Starter</h3>
+                <h4>₦10,000</h4>
+                <span>+10% Interest</span>
+            </div>
+
+            <div class="tier-card" onclick="lockMoney('Business Growth', 50000, 25, 14)">
+                <div class="tier-icon t2"><i class="fa-solid fa-chart-line"></i></div>
+                <h3>Standard</h3>
+                <h4>₦50,000</h4>
+                <span>+25% Interest</span>
+            </div>
+
+            <div class="tier-card" onclick="lockMoney('Executive Vault', 100000, 40, 30)">
+                <div class="tier-icon t3"><i class="fa-solid fa-crown"></i></div>
+                <h3>Executive</h3>
+                <h4>₦100,000</h4>
+                <span>+40% Interest</span>
+            </div>
+
+            <div class="tier-card" onclick="lockMoney('Wealth Master', 500000, 65, 60)">
+                <div class="tier-icon t4"><i class="fa-solid fa-gem"></i></div>
+                <h3>Ultimate</h3>
+                <h4>₦500,000</h4>
+                <span>+65% Interest</span>
+            </div>
+        </div>
+
+        <div class="active-section">
+            <div class="section-label" style="padding: 10px 0;">Active Investments</div>
+            <div id="active-list">
+            </div>
+        </div>
+        <div class="loader-screen" id="loader">
+
+            <img src="assets/images/fav__icon.png" class="loader-logo">
+
+            <div class="loader-text">
+                SkillPay
+            </div>
+
+        </div>
+        <nav class="bottom-nav">
+            <a href="index.html" class="nav-link"><i class="fa-solid fa-house"></i><span>Home</span></a>
+            <a href="courses.html" class="nav-link"><i class="fa-solid fa-book"></i><span>Courses</span></a>
+            <a href="earn.html" class="nav-link"><i class="fa-solid fa-sack-dollar"></i><span>Earn</span></a>
+            <a href="vault.html" class="nav-link  active"><i class="fa-solid fa-gem"></i><span>Savings</span></a>
+            <a href="profile.html" class="nav-link"><i class="fa-solid fa-user"></i><span>Profile</span></a>
+        </nav>
+    </div>
+
+    <script>
+        // Data Management
+        let wallet = JSON.parse(localStorage.getItem('skillpay_wallet')) || { balance: 25000, history: [] };
+        let activeSavings = JSON.parse(localStorage.getItem('active_savings')) || [];
+
+        function updateDisplay() {
+            document.getElementById('wallet-display').innerText = `Wallet: ₦${wallet.balance.toLocaleString()}`;
+            const listDiv = document.getElementById('active-list');
+
+            if (activeSavings.length === 0) {
+                listDiv.innerHTML = '<p style="text-align:center; color:var(--text-slate); font-size:12px; margin-top:20px;">No active investments found.</p>';
+            } else {
+                listDiv.innerHTML = activeSavings.map((s, index) => `
+                    <div class="active-card">
+                        <div class="active-info">
+                            <h5>${s.name}</h5>
+                            <p>Matures in ${s.days} days</p>
+                        </div>
+                        <div style="text-align:right">
+                            <h4 style="color:var(--success); font-size:14px;">+₦${s.profit.toLocaleString()}</h4>
+                            <span style="font-size:10px; color:var(--text-slate)">Running</span>
+                        </div>
+                    </div>
+                `).join('');
+            }
+        }
+
+        function lockMoney(name, amount, interest, days) {
+            if (wallet.balance < amount) {
+                alert("Insufficient Balance! Please top up your wallet to join this plan.");
+                return;
+            }
+
+            const confirmPlan = confirm(`Do you want to invest ₦${amount.toLocaleString()} for ${days} days? \n\nYou will earn ₦${(amount * (interest / 100)).toLocaleString()} in total profit.`);
+
+            if (confirmPlan) {
+                wallet.balance -= amount;
+                const newSaving = {
+                    name: name,
+                    amount: amount,
+                    profit: (amount * (interest / 100)),
+                    days: days
+                };
+
+                activeSavings.push(newSaving);
+                wallet.history.push({ task: `Invested: ${name}`, amt: amount, type: "minus", date: "Today" });
+
+                localStorage.setItem('skillpay_wallet', JSON.stringify(wallet));
+                localStorage.setItem('active_savings', JSON.stringify(activeSavings));
+
+                alert("Investment Successful! Your wealth is now growing.");
+                updateDisplay();
+            }
+        }
+
+        updateDisplay();
+        window.addEventListener('load', () => {
+
+            setTimeout(() => {
+
+                document.getElementById('loader').style.opacity = '0';
+
+                setTimeout(() => {
+
+                    document.getElementById('loader').style.display = 'none';
+
+                }, 400);
+
+            }, 1500);
+
+        });
+
+        // PAGE TRANSITION ANIMATION
+
+        document.querySelectorAll('a').forEach(link => {
+
+            link.addEventListener('click', function (e) {
+
+                const href = this.getAttribute('href');
+
+                if (href && href !== '#') {
+
+                    e.preventDefault();
+
+                    const loader =
+                        document.getElementById('loader');
+
+                    loader.style.display = 'flex';
+
+                    loader.style.opacity = '1';
+
+                    setTimeout(() => {
+
+                        window.location.href = href;
+
+                    }, 700);
+
+                }
+
+            });
+
+        });
+        function checkInternetConnection() {
+
+            // OFFLINE
+            if (!navigator.onLine) {
+
+                document.body.innerHTML = `
+        <div style="
+            width:100%;
+            height:100vh;
+            display:flex;
+            align-items:center;
+            justify-content:center;
+            background:#F8FAFC;
+            font-family:'Plus Jakarta Sans',sans-serif;
+            padding:20px;
+        ">
+            <div style="
+                width:100%;
+                max-width:380px;
+                background:#fff;
+                padding:35px 25px;
+                border-radius:28px;
+                text-align:center;
+                box-shadow:0 10px 30px rgba(0,0,0,0.05);
+            ">
+
+                <div style="
+                    width:90px;
+                    height:90px;
+                    margin:auto;
+                    border-radius:50%;
+                    background:#EFF6FF;
+                    display:flex;
+                    align-items:center;
+                    justify-content:center;
+                    margin-bottom:20px;
+                ">
+                    <i class="fa-solid fa-wifi-slash"
+                        style="
+                            font-size:40px;
+                            color:#2563EB;
+                        ">
+                    </i>
+                </div>
+
+                <h2 style="
+                    font-size:24px;
+                    font-weight:800;
+                    color:#0F172A;
+                    margin-bottom:10px;
+                ">
+                    No Internet Connection
+                </h2>
+
+                <p style="
+                    font-size:14px;
+                    line-height:1.7;
+                    color:#64748B;
+                    margin-bottom:25px;
+                ">
+                    Please turn on your mobile data or Wi-Fi
+                    to continue using SkillPay.
+                </p>
+
+                <button onclick="window.location.reload()"
+                    style="
+                        width:100%;
+                        border:none;
+                        background:#2563EB;
+                        color:white;
+                        padding:16px;
+                        border-radius:18px;
+                        font-size:15px;
+                        font-weight:800;
+                        cursor:pointer;
+                    ">
+                    Retry Connection
+                </button>
+
+            </div>
+        </div>
+        `;
+            }
+        }
+
+        // Run check immediately
+        checkInternetConnection();
+
+        // Detect when internet goes OFF
+        window.addEventListener("offline", () => {
+            checkInternetConnection();
+        });
+
+        // Detect when internet comes back
+        window.addEventListener("online", () => {
+            window.location.reload();
+        });
+    </script>
+</body>
+
+</html>

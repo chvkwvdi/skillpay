@@ -1,0 +1,667 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+    <title>SkillPay Videos</title>
+
+    <link rel="shortcut icon" href="assets/images/fav__icon.png" type="image/x-icon">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap');
+
+        :root {
+            --primary: #2563EB;
+            --dark: #0F172A;
+            --slate: #64748B;
+            --bg: #F8FAFC;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            background: #F1F5F9;
+            display: flex;
+            justify-content: center;
+        }
+
+        .app {
+            width: 100%;
+            max-width: 414px;
+            min-height: 100vh;
+            background: white;
+            position: relative;
+            overflow-x: hidden;
+            padding-bottom: 100px;
+        }
+
+        .header {
+            padding: 24px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .header h1 {
+            font-size: 22px;
+            font-weight: 800;
+            color: var(--dark);
+        }
+
+        .header p {
+            color: var(--slate);
+            font-size: 13px;
+            margin-top: 3px;
+        }
+
+        .wallet-box {
+            margin: 0 20px 20px;
+            background: linear-gradient(135deg, #2563EB, #1E40AF);
+            border-radius: 24px;
+            padding: 20px;
+            color: white;
+        }
+
+        .wallet-box span {
+            font-size: 12px;
+            opacity: 0.8;
+        }
+
+        .wallet-box h2 {
+            margin-top: 6px;
+            font-size: 28px;
+            font-weight: 800;
+        }
+
+        .section-title {
+            padding: 0 20px;
+            margin-bottom: 15px;
+            font-size: 17px;
+            font-weight: 800;
+            color: var(--dark);
+        }
+
+        .videos {
+            padding: 0 20px;
+        }
+
+        .video-card {
+            background: white;
+            border: 1px solid #E2E8F0;
+            border-radius: 22px;
+            overflow: hidden;
+            margin-bottom: 18px;
+        }
+
+        .video-card video {
+            width: 100%;
+            height: 210px;
+            object-fit: cover;
+            background: black;
+        }
+
+        .video-content {
+            padding: 16px;
+        }
+
+        .video-content h3 {
+            font-size: 15px;
+            font-weight: 800;
+            color: var(--dark);
+        }
+
+        .video-content p {
+            margin-top: 4px;
+            color: var(--slate);
+            font-size: 12px;
+            line-height: 1.5;
+        }
+
+        .video-footer {
+            margin-top: 14px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .earn {
+            background: #EFF6FF;
+            color: var(--primary);
+            padding: 10px 14px;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: 800;
+        }
+
+        .watch-btn {
+            background: var(--primary);
+            border: none;
+            color: white;
+            padding: 12px 18px;
+            border-radius: 14px;
+            font-size: 13px;
+            font-weight: 800;
+            cursor: pointer;
+        }
+
+        .watch-btn:disabled {
+            background: #CBD5E1;
+            cursor: not-allowed;
+        }
+
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100%;
+            max-width: 414px;
+            height: 75px;
+            background: white;
+            border-top: 1px solid #E2E8F0;
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            z-index: 100;
+        }
+
+        .nav-link {
+            text-decoration: none;
+            color: #94A3B8;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .nav-link.active {
+            color: var(--primary);
+        }
+
+        .nav-link i {
+            font-size: 18px;
+        }
+
+        .nav-link span {
+            font-size: 10px;
+            font-weight: 700;
+        }
+
+        .loader-screen {
+            position: fixed;
+            inset: 0;
+            background: white;
+            z-index: 9999;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            transition: 0.4s;
+        }
+
+        .loader-logo {
+            width: 90px;
+            animation: pulse 1.2s infinite;
+        }
+
+        .loader-text {
+            margin-top: 15px;
+            font-size: 16px;
+            font-weight: 800;
+            color: var(--primary);
+        }
+
+        @keyframes pulse {
+            0% {
+                transform: scale(0.9);
+                opacity: 0.5;
+            }
+
+            50% {
+                transform: scale(1);
+                opacity: 1;
+            }
+
+            100% {
+                transform: scale(0.9);
+                opacity: 0.5;
+            }
+        }
+
+        @media(max-width:480px) {
+
+            .app {
+                max-width: 100%;
+            }
+
+            .bottom-nav {
+                max-width: 100%;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- LOADER -->
+    <div class="loader-screen" id="loader">
+        <img src="assets/images/fav__icon.png" class="loader-logo">
+        <div class="loader-text">
+            SkillPay
+        </div>
+    </div>
+
+    <div class="app">
+
+        <div class="header">
+            <div>
+                <h1>Watch & Earn</h1>
+                <p>Complete videos and earn rewards</p>
+            </div>
+
+            <i class="fa-solid fa-video" style="font-size:22px;color:#2563EB;"></i>
+        </div>
+
+        <div class="wallet-box">
+            <span>Your Wallet Balance</span>
+            <h2 id="balance">₦0</h2>
+        </div>
+
+        <div class="section-title">
+            Sponsored Videos
+        </div>
+
+        <div class="videos">
+
+            <!-- VIDEO 1 -->
+            <div class="video-card">
+
+                <video id="video1" controls>
+                    <source src="https://www.w3schools.com/html/mov_bbb.mp4" type="video/mp4">
+                </video>
+
+                <div class="video-content">
+
+                    <h3>Crypto Investment Ad</h3>
+
+                    <p>
+                        Watch this sponsored advert completely
+                        and earn ₦150 reward instantly.
+                    </p>
+
+                    <div class="video-footer">
+
+                        <div class="earn">
+                            Earn ₦150
+                        </div>
+
+                        <button class="watch-btn" id="btn1" onclick="rewardUser(1,150)">
+                            Claim Reward
+                        </button>
+
+                    </div>
+                </div>
+            </div>
+
+            <!-- VIDEO 2 -->
+            <div class="video-card">
+
+                <video id="video2" controls>
+                    <source src="https://www.w3schools.com/html/movie.mp4" type="video/mp4">
+                </video>
+
+                <div class="video-content">
+
+                    <h3>Finance Promotion</h3>
+
+                    <p>
+                        Complete this advertisement to unlock
+                        your earning bonus.
+                    </p>
+
+                    <div class="video-footer">
+
+                        <div class="earn">
+                            Earn ₦200
+                        </div>
+
+                        <button class="watch-btn" id="btn2" onclick="rewardUser(2,200)">
+                            Claim Reward
+                        </button>
+
+                    </div>
+                </div>
+            </div>
+
+            <!-- VIDEO 3 -->
+            <div class="video-card">
+
+                <video id="video3" controls>
+                    <source src="https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4"
+                        type="video/mp4">
+                </video>
+
+                <div class="video-content">
+
+                    <h3>Travel Advertisement</h3>
+
+                    <p>
+                        Watch this travel ad and receive your
+                        instant daily reward.
+                    </p>
+
+                    <div class="video-footer">
+
+                        <div class="earn">
+                            Earn ₦250
+                        </div>
+
+                        <button class="watch-btn" id="btn3" onclick="rewardUser(3,250)">
+                            Claim Reward
+                        </button>
+
+                    </div>
+                </div>
+            </div>
+
+            <!-- VIDEO 4 -->
+            <div class="video-card">
+
+                <video id="video4" controls>
+                    <source src="https://media.w3.org/2010/05/sintel/trailer.mp4" type="video/mp4">
+                </video>
+
+                <div class="video-content">
+
+                    <h3>Gaming Advert</h3>
+
+                    <p>
+                        Complete this gaming advert and get
+                        credited immediately.
+                    </p>
+
+                    <div class="video-footer">
+
+                        <div class="earn">
+                            Earn ₦300
+                        </div>
+
+                        <button class="watch-btn" id="btn4" onclick="rewardUser(4,300)">
+                            Claim Reward
+                        </button>
+
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- BOTTOM NAV -->
+
+        <nav class="bottom-nav">
+
+            <a href="index.html" class="nav-link">
+                <i class="fa-solid fa-house"></i>
+                <span>Home</span>
+            </a>
+
+            <a href="courses.html" class="nav-link">
+                <i class="fa-solid fa-book"></i>
+                <span>Courses</span>
+            </a>
+
+            <a href="video.html" class="nav-link active">
+                <i class="fa-solid fa-video"></i>
+                <span>Videos</span>
+            </a>
+
+            <a href="earn.html" class="nav-link">
+                <i class="fa-solid fa-sack-dollar"></i>
+                <span>Earn</span>
+            </a>
+
+            <a href="profile.html" class="nav-link">
+                <i class="fa-solid fa-user"></i>
+                <span>Profile</span>
+            </a>
+
+        </nav>
+
+    </div>
+
+    <script>
+
+        // PAGE LOADER
+        window.addEventListener('load', () => {
+
+            setTimeout(() => {
+
+                document.getElementById('loader').style.opacity = '0';
+
+                setTimeout(() => {
+
+                    document.getElementById('loader').style.display = 'none';
+
+                }, 400);
+
+            }, 1500);
+
+        });
+
+        // GET USER
+        let user =
+            JSON.parse(localStorage.getItem('skillpay_user'));
+
+        // CREATE USER IF NONE
+        if (!user) {
+
+            user = {
+                balance: 3000,
+                transactions: []
+            };
+
+            localStorage.setItem(
+                'skillpay_user',
+                JSON.stringify(user)
+            );
+        }
+
+        // SHOW BALANCE
+        function updateBalance() {
+
+            document.getElementById('balance').innerText =
+                `₦${user.balance.toLocaleString()}`;
+        }
+
+        updateBalance();
+
+        // VIDEO REWARD
+        function rewardUser(videoId, amount) {
+
+            const video =
+                document.getElementById(`video${videoId}`);
+
+            const button =
+                document.getElementById(`btn${videoId}`);
+
+            // MUST WATCH COMPLETE VIDEO
+            if (video.currentTime < video.duration - 2) {
+
+                alert(
+                    "Please complete the video before claiming reward."
+                );
+
+                return;
+            }
+
+            // CHECK IF ALREADY CLAIMED
+            const alreadyClaimed =
+                localStorage.getItem(`claimed_video_${videoId}`);
+
+            if (alreadyClaimed) {
+
+                alert("Reward already claimed.");
+
+                return;
+            }
+
+            // ADD MONEY
+            user.balance += amount;
+
+            // SAVE TRANSACTION
+            user.transactions.push({
+                type: 'Video Reward',
+                amount: amount,
+                date: new Date().toLocaleString()
+            });
+
+            // SAVE
+            localStorage.setItem(
+                'skillpay_user',
+                JSON.stringify(user)
+            );
+
+            localStorage.setItem(
+                `claimed_video_${videoId}`,
+                'true'
+            );
+
+            // UPDATE UI
+            updateBalance();
+
+            // DISABLE BUTTON
+            button.innerText = 'Reward Claimed';
+
+            button.disabled = true;
+
+            alert(`₦${amount} added to your wallet.`);
+        }
+
+        // CHECK CLAIMED BUTTONS
+        for (let i = 1; i <= 4; i++) {
+
+            const claimed =
+                localStorage.getItem(`claimed_video_${i}`);
+
+            if (claimed) {
+
+                const btn =
+                    document.getElementById(`btn${i}`);
+
+                btn.innerText = 'Reward Claimed';
+
+                btn.disabled = true;
+            }
+        }
+        function checkInternetConnection() {
+
+            // OFFLINE
+            if (!navigator.onLine) {
+
+                document.body.innerHTML = `
+        <div style="
+            width:100%;
+            height:100vh;
+            display:flex;
+            align-items:center;
+            justify-content:center;
+            background:#F8FAFC;
+            font-family:'Plus Jakarta Sans',sans-serif;
+            padding:20px;
+        ">
+            <div style="
+                width:100%;
+                max-width:380px;
+                background:#fff;
+                padding:35px 25px;
+                border-radius:28px;
+                text-align:center;
+                box-shadow:0 10px 30px rgba(0,0,0,0.05);
+            ">
+
+                <div style="
+                    width:90px;
+                    height:90px;
+                    margin:auto;
+                    border-radius:50%;
+                    background:#EFF6FF;
+                    display:flex;
+                    align-items:center;
+                    justify-content:center;
+                    margin-bottom:20px;
+                ">
+                    <i class="fa-solid fa-wifi-slash"
+                        style="
+                            font-size:40px;
+                            color:#2563EB;
+                        ">
+                    </i>
+                </div>
+
+                <h2 style="
+                    font-size:24px;
+                    font-weight:800;
+                    color:#0F172A;
+                    margin-bottom:10px;
+                ">
+                    No Internet Connection
+                </h2>
+
+                <p style="
+                    font-size:14px;
+                    line-height:1.7;
+                    color:#64748B;
+                    margin-bottom:25px;
+                ">
+                    Please turn on your mobile data or Wi-Fi
+                    to continue using SkillPay.
+                </p>
+
+                <button onclick="window.location.reload()"
+                    style="
+                        width:100%;
+                        border:none;
+                        background:#2563EB;
+                        color:white;
+                        padding:16px;
+                        border-radius:18px;
+                        font-size:15px;
+                        font-weight:800;
+                        cursor:pointer;
+                    ">
+                    Retry Connection
+                </button>
+
+            </div>
+        </div>
+        `;
+            }
+        }
+
+        // Run check immediately
+        checkInternetConnection();
+
+        // Detect when internet goes OFF
+        window.addEventListener("offline", () => {
+            checkInternetConnection();
+        });
+
+        // Detect when internet comes back
+        window.addEventListener("online", () => {
+            window.location.reload();
+        });
+    </script>
+
+</body>
+
+</html>
