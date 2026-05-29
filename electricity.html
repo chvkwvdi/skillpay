@@ -1,0 +1,754 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SkillPay Electricity</title>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap"
+        rel="stylesheet">
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+        }
+
+        body {
+            background: #F1F5F9;
+            display: flex;
+            justify-content: center;
+        }
+
+        .app {
+            width: 100%;
+            max-width: 430px;
+            min-height: 100vh;
+            background: white;
+            padding: 20px;
+            padding-bottom: 120px;
+        }
+
+        .top-bar {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+
+        .back-btn {
+            width: 45px;
+            height: 45px;
+            border-radius: 15px;
+            background: #EFF6FF;
+            color: #2563EB;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            font-size: 18px;
+        }
+
+        .page-title {
+            font-size: 22px;
+            font-weight: 800;
+            color: #0F172A;
+        }
+
+        .wallet-card {
+            background: linear-gradient(135deg, #2563EB, #1D4ED8);
+            border-radius: 25px;
+            padding: 24px;
+            color: white;
+            margin-bottom: 25px;
+        }
+
+        .wallet-label {
+            font-size: 13px;
+            opacity: .8;
+            font-weight: 600;
+        }
+
+        .wallet-balance {
+            font-size: 30px;
+            font-weight: 800;
+            margin-top: 8px;
+        }
+
+        .section-title {
+            font-size: 15px;
+            font-weight: 800;
+            color: #0F172A;
+            margin-bottom: 15px;
+        }
+
+        .provider-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 14px;
+            margin-bottom: 25px;
+        }
+
+        .provider-card {
+            border: 2px solid #E2E8F0;
+            border-radius: 22px;
+            padding: 18px;
+            cursor: pointer;
+            transition: .25s;
+            background: white;
+        }
+
+        .provider-card.active {
+            border-color: #2563EB;
+            background: #EFF6FF;
+        }
+
+        .provider-card:active {
+            transform: scale(.96);
+        }
+
+        .provider-logo {
+            width: 55px;
+            height: 55px;
+            border-radius: 16px;
+            background: #EFF6FF;
+            color: #2563EB;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            margin-bottom: 12px;
+        }
+
+        .provider-name {
+            font-size: 14px;
+            font-weight: 800;
+            color: #0F172A;
+        }
+
+        .provider-sub {
+            font-size: 11px;
+            color: #64748B;
+            margin-top: 4px;
+        }
+
+        .meter-type-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 14px;
+            margin-bottom: 25px;
+        }
+
+        .meter-card {
+            border: 2px solid #E2E8F0;
+            border-radius: 20px;
+            padding: 18px;
+            text-align: center;
+            cursor: pointer;
+            transition: .25s;
+        }
+
+        .meter-card.active {
+            border-color: #2563EB;
+            background: #EFF6FF;
+        }
+
+        .meter-card:active {
+            transform: scale(.97);
+        }
+
+        .meter-icon {
+            width: 50px;
+            height: 50px;
+            border-radius: 16px;
+            background: #DBEAFE;
+            color: #2563EB;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: auto;
+            margin-bottom: 12px;
+            font-size: 18px;
+        }
+
+        .meter-title {
+            font-size: 14px;
+            font-weight: 800;
+            color: #0F172A;
+        }
+
+        .meter-sub {
+            font-size: 11px;
+            color: #64748B;
+            margin-top: 4px;
+        }
+
+        .input-box {
+            background: white;
+            border: 2px solid #E2E8F0;
+            border-radius: 22px;
+            padding: 18px;
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            margin-bottom: 18px;
+            transition: .25s;
+        }
+
+        .input-box:focus-within {
+            border-color: #2563EB;
+            box-shadow: 0 0 0 4px rgba(37, 99, 235, .08);
+        }
+
+        .input-icon {
+            width: 48px;
+            height: 48px;
+            border-radius: 16px;
+            background: #EFF6FF;
+            color: #2563EB;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+        }
+
+        .input-field {
+            flex: 1;
+            border: none;
+            outline: none;
+            font-size: 16px;
+            font-weight: 700;
+            color: #0F172A;
+        }
+
+        .amount-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 12px;
+            margin-bottom: 25px;
+        }
+
+        .amount-card {
+            background: white;
+            border: 2px solid #E2E8F0;
+            border-radius: 18px;
+            padding: 15px;
+            text-align: center;
+            font-size: 14px;
+            font-weight: 800;
+            color: #0F172A;
+            cursor: pointer;
+            transition: .25s;
+        }
+
+        .amount-card.active {
+            border-color: #2563EB;
+            background: #EFF6FF;
+            color: #2563EB;
+        }
+
+        .amount-card:active {
+            transform: scale(.95);
+        }
+
+        .verify-box {
+            background: #F8FAFC;
+            border-radius: 20px;
+            padding: 18px;
+            margin-bottom: 25px;
+            display: none;
+        }
+
+        .verify-title {
+            font-size: 12px;
+            font-weight: 700;
+            color: #64748B;
+            margin-bottom: 6px;
+        }
+
+        .verify-name {
+            font-size: 17px;
+            font-weight: 800;
+            color: #0F172A;
+        }
+
+        .buy-btn {
+            width: 100%;
+            height: 60px;
+            border: none;
+            border-radius: 22px;
+            background: #2563EB;
+            color: white;
+            font-size: 16px;
+            font-weight: 800;
+            cursor: pointer;
+            transition: .25s;
+        }
+
+        .buy-btn:active {
+            transform: scale(.98);
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="app">
+
+        <div class="top-bar">
+
+            <div class="back-btn" onclick="window.location.href='services.html'">
+                <i class="fa-solid fa-arrow-left"></i>
+            </div>
+
+            <div class="page-title">
+                Electricity
+            </div>
+
+        </div>
+
+        <div class="wallet-card">
+
+            <div class="wallet-label">
+                Wallet Balance
+            </div>
+
+            <div class="wallet-balance" id="walletBalance">
+                ₦0
+            </div>
+
+        </div>
+
+        <!-- DISTRIBUTION -->
+        <div class="section-title">
+            Select Provider
+        </div>
+
+        <div class="provider-grid">
+
+            <div class="provider-card active" onclick="selectProvider('IKEDC', this)">
+
+                <div class="provider-logo">
+                    <i class="fa-solid fa-bolt"></i>
+                </div>
+
+                <div class="provider-name">
+                    IKEDC
+                </div>
+
+                <div class="provider-sub">
+                    Ikeja Electric
+                </div>
+
+            </div>
+
+            <div class="provider-card" onclick="selectProvider('AEDC', this)">
+
+                <div class="provider-logo">
+                    <i class="fa-solid fa-lightbulb"></i>
+                </div>
+
+                <div class="provider-name">
+                    AEDC
+                </div>
+
+                <div class="provider-sub">
+                    Abuja Electric
+                </div>
+
+            </div>
+
+            <div class="provider-card" onclick="selectProvider('EKEDC', this)">
+
+                <div class="provider-logo">
+                    <i class="fa-solid fa-plug"></i>
+                </div>
+
+                <div class="provider-name">
+                    EKEDC
+                </div>
+
+                <div class="provider-sub">
+                    Eko Electric
+                </div>
+
+            </div>
+
+            <div class="provider-card" onclick="selectProvider('PHED', this)">
+
+                <div class="provider-logo">
+                    <i class="fa-solid fa-charging-station"></i>
+                </div>
+
+                <div class="provider-name">
+                    PHED
+                </div>
+
+                <div class="provider-sub">
+                    Port Harcourt
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- METER TYPE -->
+        <div class="section-title">
+            Meter Type
+        </div>
+
+        <div class="meter-type-grid">
+
+            <div class="meter-card active" onclick="selectMeter('Prepaid', this)">
+
+                <div class="meter-icon">
+                    <i class="fa-solid fa-gauge"></i>
+                </div>
+
+                <div class="meter-title">
+                    Prepaid
+                </div>
+
+                <div class="meter-sub">
+                    Recharge Meter
+                </div>
+
+            </div>
+
+            <div class="meter-card" onclick="selectMeter('Postpaid', this)">
+
+                <div class="meter-icon">
+                    <i class="fa-solid fa-file-invoice-dollar"></i>
+                </div>
+
+                <div class="meter-title">
+                    Postpaid
+                </div>
+
+                <div class="meter-sub">
+                    Pay Bill
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- METER NUMBER -->
+        <div class="section-title">
+            Meter Number
+        </div>
+
+        <div class="input-box">
+
+            <div class="input-icon">
+                <i class="fa-solid fa-hashtag"></i>
+            </div>
+
+            <input type="number" class="input-field" id="meterNumber" placeholder="Enter meter number"
+                oninput="verifyMeter()">
+
+        </div>
+
+        <!-- VERIFIED -->
+        <div class="verify-box" id="verifyBox">
+
+            <div class="verify-title">
+                Verified Meter Name
+            </div>
+
+            <div class="verify-name" id="meterName">
+                Loading...
+            </div>
+
+        </div>
+
+        <!-- AMOUNT -->
+        <div class="section-title">
+            Select Amount
+        </div>
+
+        <div class="amount-grid">
+
+            <div class="amount-card" onclick="selectAmount(1000, this)">
+                ₦1,000
+            </div>
+
+            <div class="amount-card" onclick="selectAmount(2000, this)">
+                ₦2,000
+            </div>
+
+            <div class="amount-card" onclick="selectAmount(5000, this)">
+                ₦5,000
+            </div>
+
+            <div class="amount-card" onclick="selectAmount(10000, this)">
+                ₦10,000
+            </div>
+
+            <div class="amount-card" onclick="selectAmount(20000, this)">
+                ₦20,000
+            </div>
+
+            <div class="amount-card" onclick="selectAmount(50000, this)">
+                ₦50,000
+            </div>
+
+        </div>
+
+        <!-- CUSTOM -->
+        <div class="input-box">
+
+            <div class="input-icon">
+                <i class="fa-solid fa-naira-sign"></i>
+            </div>
+
+            <input type="number" class="input-field" id="customAmount" placeholder="Enter custom amount">
+
+        </div>
+
+        <!-- BUTTON -->
+        <button class="buy-btn" onclick="buyElectricity()">
+
+            Pay Electricity Bill
+
+        </button>
+
+    </div>
+
+    <script>
+
+        // =========================
+        // WALLET
+        // =========================
+        let wallet =
+            JSON.parse(localStorage.getItem("skillpay_wallet"));
+
+        if (!wallet) {
+
+            wallet = {
+                balance: 50000,
+                transactions: []
+            };
+
+            localStorage.setItem(
+                "skillpay_wallet",
+                JSON.stringify(wallet)
+            );
+        }
+
+        document.getElementById("walletBalance").innerText =
+            "₦" + wallet.balance.toLocaleString();
+
+        // =========================
+        // VARIABLES
+        // =========================
+        let selectedProvider = "IKEDC";
+        let selectedMeter = "Prepaid";
+        let selectedAmount = 0;
+
+        // =========================
+        // SELECT PROVIDER
+        // =========================
+        function selectProvider(name, el) {
+
+            selectedProvider = name;
+
+            document.querySelectorAll(".provider-card")
+                .forEach(card => {
+                    card.classList.remove("active");
+                });
+
+            el.classList.add("active");
+        }
+
+        // =========================
+        // SELECT METER
+        // =========================
+        function selectMeter(type, el) {
+
+            selectedMeter = type;
+
+            document.querySelectorAll(".meter-card")
+                .forEach(card => {
+                    card.classList.remove("active");
+                });
+
+            el.classList.add("active");
+        }
+
+        // =========================
+        // SELECT AMOUNT
+        // =========================
+        function selectAmount(amount, el) {
+
+            selectedAmount = amount;
+
+            document.getElementById("customAmount").value =
+                amount;
+
+            document.querySelectorAll(".amount-card")
+                .forEach(card => {
+                    card.classList.remove("active");
+                });
+
+            el.classList.add("active");
+        }
+
+        // =========================
+        // VERIFY METER
+        // =========================
+        function verifyMeter() {
+
+            const meter =
+                document.getElementById("meterNumber").value;
+
+            const verifyBox =
+                document.getElementById("verifyBox");
+
+            const meterName =
+                document.getElementById("meterName");
+
+            if (meter.length >= 11) {
+
+                verifyBox.style.display = "block";
+
+                meterName.innerText =
+                    "CHINEDU OKAFOR";
+            }
+            else {
+
+                verifyBox.style.display = "none";
+            }
+        }
+
+        // =========================
+        // BUY ELECTRICITY
+        // =========================
+        function buyElectricity() {
+
+            const meter =
+                document.getElementById("meterNumber").value;
+
+            let amount =
+                document.getElementById("customAmount").value;
+
+            amount = Number(amount);
+
+            if (meter.length < 11) {
+
+                alert("Enter valid meter number");
+                return;
+            }
+
+            if (amount < 500) {
+
+                alert("Minimum amount is ₦500");
+                return;
+            }
+
+            let wallet =
+                JSON.parse(localStorage.getItem("skillpay_wallet"));
+
+            // OWNER PROFIT
+            const ownerProfit =
+                Math.ceil(amount * 0.003);
+
+            const total =
+                amount + ownerProfit;
+
+            if (wallet.balance < total) {
+
+                alert("Insufficient wallet balance");
+                return;
+            }
+
+            // DEBIT
+            wallet.balance -= total;
+
+            // TOKEN
+            const token =
+                Math.floor(
+                    100000000000000000 +
+                    Math.random() * 900000000000000000
+                );
+
+            // SAVE TRANSACTION
+            wallet.transactions.unshift({
+
+                type: "Electricity Bill",
+
+                meter: meter,
+
+                provider: selectedProvider,
+
+                meterType: selectedMeter,
+
+                amount: amount,
+
+                token: token,
+
+                date: new Date().toLocaleString()
+
+            });
+
+            localStorage.setItem(
+                "skillpay_wallet",
+                JSON.stringify(wallet)
+            );
+
+            // OWNER WALLET
+            let ownerWallet =
+                JSON.parse(localStorage.getItem("owner_wallet"));
+
+            if (!ownerWallet) {
+
+                ownerWallet = {
+                    balance: 0,
+                    earnings: []
+                };
+            }
+
+            ownerWallet.balance += ownerProfit;
+
+            ownerWallet.earnings.unshift({
+
+                type: "Electricity Profit",
+
+                amount: ownerProfit,
+
+                date: new Date().toLocaleString()
+
+            });
+
+            localStorage.setItem(
+                "owner_wallet",
+                JSON.stringify(ownerWallet)
+            );
+
+            // SUCCESS
+            alert(
+
+                "Electricity Purchase Successful\n\n" +
+
+                "Provider: " + selectedProvider + "\n" +
+
+                "Meter Type: " + selectedMeter + "\n" +
+
+                "Amount: ₦" + amount.toLocaleString() + "\n\n" +
+
+                "TOKEN:\n" + token
+            );
+
+            window.location.href = "services.html";
+        }
+
+    </script>
+
+</body>
+
+</html>

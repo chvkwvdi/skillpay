@@ -1,0 +1,456 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SkillPay Bills</title>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap"
+        rel="stylesheet">
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+        }
+
+        body {
+            background: #F1F5F9;
+            display: flex;
+            justify-content: center;
+        }
+
+        .app {
+            width: 100%;
+            max-width: 430px;
+            min-height: 100vh;
+            background: white;
+            padding: 20px;
+            padding-bottom: 120px;
+        }
+
+        .top-bar {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+
+        .back-btn {
+            width: 45px;
+            height: 45px;
+            border-radius: 15px;
+            background: #EFF6FF;
+            color: #2563EB;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            font-size: 18px;
+        }
+
+        .page-title {
+            font-size: 22px;
+            font-weight: 800;
+            color: #0F172A;
+        }
+
+        .wallet-card {
+            background: linear-gradient(135deg, #2563EB, #1D4ED8);
+            border-radius: 25px;
+            padding: 24px;
+            color: white;
+            margin-bottom: 25px;
+        }
+
+        .wallet-label {
+            font-size: 13px;
+            opacity: .8;
+            font-weight: 600;
+        }
+
+        .wallet-balance {
+            font-size: 30px;
+            font-weight: 800;
+            margin-top: 8px;
+        }
+
+        .service-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 16px;
+            margin-top: 25px;
+        }
+
+        .service-card {
+            background: white;
+            border: 2px solid #E2E8F0;
+            border-radius: 24px;
+            padding: 22px;
+            cursor: pointer;
+            transition: .25s;
+            text-decoration: none;
+        }
+
+        .service-card:hover {
+            border-color: #2563EB;
+            background: #EFF6FF;
+        }
+
+        .service-card:active {
+            transform: scale(.96);
+        }
+
+        .service-icon {
+            width: 65px;
+            height: 65px;
+            border-radius: 20px;
+            background: #EFF6FF;
+            color: #2563EB;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            margin: auto;
+            margin-bottom: 18px;
+        }
+
+        .service-title {
+            text-align: center;
+            font-size: 15px;
+            font-weight: 800;
+            color: #0F172A;
+        }
+
+        .service-sub {
+            text-align: center;
+            font-size: 11px;
+            color: #64748B;
+            margin-top: 6px;
+            line-height: 1.5;
+        }
+
+        .history-box {
+            margin-top: 35px;
+        }
+
+        .section-title {
+            font-size: 16px;
+            font-weight: 800;
+            color: #0F172A;
+            margin-bottom: 16px;
+        }
+
+        .history-card {
+            background: white;
+            border: 2px solid #E2E8F0;
+            border-radius: 20px;
+            padding: 16px;
+            margin-bottom: 14px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .history-title {
+            font-size: 14px;
+            font-weight: 800;
+            color: #0F172A;
+        }
+
+        .history-sub {
+            font-size: 11px;
+            color: #64748B;
+            margin-top: 5px;
+        }
+
+        .history-amount {
+            font-size: 16px;
+            font-weight: 800;
+            color: #DC2626;
+            text-align: right;
+        }
+
+        .history-date {
+            font-size: 10px;
+            color: #94A3B8;
+            margin-top: 5px;
+            text-align: right;
+        }
+
+        .empty-history {
+            background: #F8FAFC;
+            border-radius: 20px;
+            padding: 25px;
+            text-align: center;
+            color: #64748B;
+            font-size: 13px;
+            font-weight: 600;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="app">
+
+        <div class="top-bar">
+
+            <div class="back-btn" onclick="window.location.href='more.html'">
+                <i class="fa-solid fa-arrow-left"></i>
+            </div>
+
+            <div class="page-title">
+                Bills & Subscriptions
+            </div>
+
+        </div>
+
+        <div class="wallet-card">
+
+            <div class="wallet-label">
+                Wallet Balance
+            </div>
+
+            <div class="wallet-balance" id="walletBalance">
+                ₦0
+            </div>
+
+        </div>
+
+        <div class="service-grid">
+
+            <!-- DATA -->
+            <a href="data.html" class="service-card">
+
+                <div class="service-icon">
+                    <i class="fa-solid fa-wifi"></i>
+                </div>
+
+                <div class="service-title">
+                    Buy Data
+                </div>
+
+                <div class="service-sub">
+                    MTN, Airtel, Glo & 9mobile
+                </div>
+
+            </a>
+
+            <!-- AIRTIME -->
+            <a href="airtime.html" class="service-card">
+
+                <div class="service-icon">
+                    <i class="fa-solid fa-phone-volume"></i>
+                </div>
+
+                <div class="service-title">
+                    Airtime
+                </div>
+
+                <div class="service-sub">
+                    Recharge all networks instantly
+                </div>
+
+            </a>
+
+            <!-- ELECTRICITY -->
+            <a href="electricity.html" class="service-card">
+
+                <div class="service-icon">
+                    <i class="fa-solid fa-bolt"></i>
+                </div>
+
+                <div class="service-title">
+                    Electricity
+                </div>
+
+                <div class="service-sub">
+                    Pay electricity bills easily
+                </div>
+
+            </a>
+
+            <!-- TV -->
+            <a href="tv.html" class="service-card">
+
+                <div class="service-icon">
+                    <i class="fa-solid fa-tv"></i>
+                </div>
+
+                <div class="service-title">
+                    TV Subscription
+                </div>
+
+                <div class="service-sub">
+                    DStv, GOtv & Startimes
+                </div>
+
+            </a>
+
+            <!-- WATER -->
+            <a href="water.html" class="service-card">
+
+                <div class="service-icon">
+                    <i class="fa-solid fa-faucet-drip"></i>
+                </div>
+
+                <div class="service-title">
+                    Water Bills
+                </div>
+
+                <div class="service-sub">
+                    Pay water bills instantly
+                </div>
+
+            </a>
+
+            <!-- INTERNET -->
+            <a href="internet.html" class="service-card">
+
+                <div class="service-icon">
+                    <i class="fa-solid fa-globe"></i>
+                </div>
+
+                <div class="service-title">
+                    Internet Bills
+                </div>
+
+                <div class="service-sub">
+                    Smile, Spectranet & others
+                </div>
+
+            </a>
+
+        </div>
+
+        <!-- TRANSACTION HISTORY -->
+        <div class="history-box">
+
+            <div class="section-title">
+                Transaction History
+            </div>
+
+            <div id="historyContainer"></div>
+
+        </div>
+
+    </div>
+
+    <script>
+
+        // =========================
+        // LOGIN CHECK
+        // =========================
+        const currentUser =
+            JSON.parse(localStorage.getItem("currentUser"));
+
+        if (!currentUser) {
+
+            window.location.href = "login.html";
+        }
+
+        // =========================
+        // WALLET SETUP
+        // =========================
+        let wallet =
+            JSON.parse(localStorage.getItem("skillpay_wallet"));
+
+        if (!wallet) {
+
+            wallet = {
+                balance: 5000,
+                transactions: []
+            };
+
+            localStorage.setItem(
+                "skillpay_wallet",
+                JSON.stringify(wallet)
+            );
+        }
+
+        // =========================
+        // UPDATE BALANCE
+        // =========================
+        document.getElementById("walletBalance").innerText =
+            "₦" + wallet.balance.toLocaleString();
+
+        // =========================
+        // TRANSACTION HISTORY
+        // =========================
+        function renderHistory() {
+
+            const container =
+                document.getElementById("historyContainer");
+
+            const walletData =
+                JSON.parse(localStorage.getItem("skillpay_wallet"));
+
+            const transactions =
+                walletData.transactions || [];
+
+            if (transactions.length === 0) {
+
+                container.innerHTML = `
+
+                <div class="empty-history">
+
+                    No transactions yet
+
+                </div>
+
+                `;
+
+                return;
+            }
+
+            container.innerHTML = "";
+
+            transactions.forEach(tx => {
+
+                container.innerHTML += `
+
+                <div class="history-card">
+
+                    <div>
+
+                        <div class="history-title">
+                            ${tx.type}
+                        </div>
+
+                        <div class="history-sub">
+                            ${tx.phone || tx.meter || tx.smartcard || ""}
+                        </div>
+
+                    </div>
+
+                    <div>
+
+                        <div class="history-amount">
+                            - ₦${Number(tx.amount).toLocaleString()}
+                        </div>
+
+                        <div class="history-date">
+                            ${tx.date}
+                        </div>
+
+                    </div>
+
+                </div>
+
+                `;
+            });
+        }
+
+        renderHistory();
+
+    </script>
+
+</body>
+
+</html>

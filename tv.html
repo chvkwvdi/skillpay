@@ -1,0 +1,745 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SkillPay TV Subscription</title>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap"
+        rel="stylesheet">
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+        }
+
+        body {
+            background: #F1F5F9;
+            display: flex;
+            justify-content: center;
+        }
+
+        .app {
+            width: 100%;
+            max-width: 430px;
+            min-height: 100vh;
+            background: white;
+            padding: 20px;
+            padding-bottom: 120px;
+        }
+
+        .top-bar {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+
+        .back-btn {
+            width: 45px;
+            height: 45px;
+            border-radius: 15px;
+            background: #EFF6FF;
+            color: #2563EB;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            font-size: 18px;
+        }
+
+        .page-title {
+            font-size: 22px;
+            font-weight: 800;
+            color: #0F172A;
+        }
+
+        .wallet-card {
+            background: linear-gradient(135deg, #2563EB, #1D4ED8);
+            border-radius: 25px;
+            padding: 24px;
+            color: white;
+            margin-bottom: 28px;
+        }
+
+        .wallet-label {
+            font-size: 13px;
+            opacity: .8;
+            font-weight: 600;
+        }
+
+        .wallet-balance {
+            font-size: 30px;
+            font-weight: 800;
+            margin-top: 8px;
+        }
+
+        .section-title {
+            font-size: 15px;
+            font-weight: 800;
+            color: #0F172A;
+            margin-bottom: 15px;
+        }
+
+        .tv-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 14px;
+            margin-bottom: 28px;
+        }
+
+        .tv-card {
+            background: white;
+            border: 2px solid #E2E8F0;
+            border-radius: 22px;
+            padding: 18px;
+            cursor: pointer;
+            transition: .25s;
+        }
+
+        .tv-card.active {
+            border-color: #2563EB;
+            background: #EFF6FF;
+        }
+
+        .tv-card:active {
+            transform: scale(.96);
+        }
+
+        .tv-logo {
+            width: 60px;
+            height: 60px;
+            border-radius: 18px;
+            background: #EFF6FF;
+            color: #2563EB;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            margin-bottom: 14px;
+        }
+
+        .tv-name {
+            font-size: 15px;
+            font-weight: 800;
+            color: #0F172A;
+        }
+
+        .tv-sub {
+            font-size: 11px;
+            color: #64748B;
+            margin-top: 4px;
+        }
+
+        .input-box {
+            background: white;
+            border: 2px solid #E2E8F0;
+            border-radius: 22px;
+            padding: 18px;
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            margin-bottom: 18px;
+            transition: .25s;
+        }
+
+        .input-box:focus-within {
+            border-color: #2563EB;
+            box-shadow: 0 0 0 4px rgba(37, 99, 235, .08);
+        }
+
+        .input-icon {
+            width: 50px;
+            height: 50px;
+            border-radius: 16px;
+            background: #EFF6FF;
+            color: #2563EB;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+        }
+
+        .input-field {
+            flex: 1;
+            border: none;
+            outline: none;
+            font-size: 16px;
+            font-weight: 700;
+            color: #0F172A;
+        }
+
+        .verify-box {
+            background: #F8FAFC;
+            border-radius: 20px;
+            padding: 18px;
+            margin-bottom: 25px;
+            display: none;
+        }
+
+        .verify-title {
+            font-size: 12px;
+            font-weight: 700;
+            color: #64748B;
+            margin-bottom: 6px;
+        }
+
+        .verify-name {
+            font-size: 17px;
+            font-weight: 800;
+            color: #0F172A;
+        }
+
+        .plan-card {
+            background: white;
+            border: 2px solid #E2E8F0;
+            border-radius: 20px;
+            padding: 18px;
+            margin-bottom: 14px;
+            cursor: pointer;
+            transition: .25s;
+        }
+
+        .plan-card.active {
+            border-color: #2563EB;
+            background: #EFF6FF;
+        }
+
+        .plan-card:active {
+            transform: scale(.97);
+        }
+
+        .plan-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .plan-name {
+            font-size: 15px;
+            font-weight: 800;
+            color: #0F172A;
+        }
+
+        .plan-price {
+            font-size: 17px;
+            font-weight: 800;
+            color: #2563EB;
+        }
+
+        .plan-sub {
+            font-size: 11px;
+            color: #64748B;
+            margin-top: 5px;
+        }
+
+        .subscribe-btn {
+            width: 100%;
+            height: 60px;
+            border: none;
+            border-radius: 22px;
+            background: #2563EB;
+            color: white;
+            font-size: 16px;
+            font-weight: 800;
+            cursor: pointer;
+            margin-top: 10px;
+            transition: .25s;
+        }
+
+        .subscribe-btn:active {
+            transform: scale(.98);
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="app">
+
+        <div class="top-bar">
+
+            <div class="back-btn" onclick="window.location.href='services.html'">
+
+                <i class="fa-solid fa-arrow-left"></i>
+
+            </div>
+
+            <div class="page-title">
+                TV Subscription
+            </div>
+
+        </div>
+
+        <!-- WALLET -->
+        <div class="wallet-card">
+
+            <div class="wallet-label">
+                Wallet Balance
+            </div>
+
+            <div class="wallet-balance" id="walletBalance">
+
+                ₦0
+
+            </div>
+
+        </div>
+
+        <!-- PROVIDERS -->
+        <div class="section-title">
+            Select TV Provider
+        </div>
+
+        <div class="tv-grid">
+
+            <div class="tv-card active" onclick="selectTV('DSTV', this)">
+
+                <div class="tv-logo">
+                    <i class="fa-solid fa-tv"></i>
+                </div>
+
+                <div class="tv-name">
+                    DStv
+                </div>
+
+                <div class="tv-sub">
+                    Premium Entertainment
+                </div>
+
+            </div>
+
+            <div class="tv-card" onclick="selectTV('GOTV', this)">
+
+                <div class="tv-logo">
+                    <i class="fa-solid fa-satellite-dish"></i>
+                </div>
+
+                <div class="tv-name">
+                    GOtv
+                </div>
+
+                <div class="tv-sub">
+                    Affordable TV
+                </div>
+
+            </div>
+
+            <div class="tv-card" onclick="selectTV('STARTIMES', this)">
+
+                <div class="tv-logo">
+                    <i class="fa-solid fa-film"></i>
+                </div>
+
+                <div class="tv-name">
+                    Startimes
+                </div>
+
+                <div class="tv-sub">
+                    Smart Viewing
+                </div>
+
+            </div>
+
+            <div class="tv-card" onclick="selectTV('SHOWMAX', this)">
+
+                <div class="tv-logo">
+                    <i class="fa-solid fa-play"></i>
+                </div>
+
+                <div class="tv-name">
+                    Showmax
+                </div>
+
+                <div class="tv-sub">
+                    Movies & Series
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- SMART CARD -->
+        <div class="section-title">
+            Smart Card / Decoder Number
+        </div>
+
+        <div class="input-box">
+
+            <div class="input-icon">
+                <i class="fa-solid fa-credit-card"></i>
+            </div>
+
+            <input type="number" class="input-field" id="decoderNumber" placeholder="Enter decoder number"
+                oninput="verifyDecoder()">
+
+        </div>
+
+        <!-- VERIFIED -->
+        <div class="verify-box" id="verifyBox">
+
+            <div class="verify-title">
+                Verified Customer Name
+            </div>
+
+            <div class="verify-name" id="customerName">
+
+                Loading...
+
+            </div>
+
+        </div>
+
+        <!-- PLANS -->
+        <div class="section-title">
+            Select Subscription Plan
+        </div>
+
+        <div id="plansContainer"></div>
+
+        <!-- BUTTON -->
+        <button class="subscribe-btn" onclick="subscribeTV()">
+
+            Subscribe Now
+
+        </button>
+
+    </div>
+
+    <script>
+
+        // =========================
+        // WALLET
+        // =========================
+        let wallet =
+            JSON.parse(localStorage.getItem("skillpay_wallet"));
+
+        if (!wallet) {
+
+            wallet = {
+                balance: 50000,
+                transactions: []
+            };
+
+            localStorage.setItem(
+                "skillpay_wallet",
+                JSON.stringify(wallet)
+            );
+        }
+
+        document.getElementById("walletBalance").innerText =
+            "₦" + wallet.balance.toLocaleString();
+
+        // =========================
+        // TV PROVIDERS
+        // =========================
+        const plans = {
+
+            DSTV: [
+
+                {
+                    name: "DStv Padi",
+                    amount: 3600,
+                    sub: "30 Days Access"
+                },
+
+                {
+                    name: "DStv Compact",
+                    amount: 12500,
+                    sub: "Full Entertainment"
+                },
+
+                {
+                    name: "DStv Premium",
+                    amount: 29500,
+                    sub: "Premium Channels"
+                }
+
+            ],
+
+            GOTV: [
+
+                {
+                    name: "GOtv Smallie",
+                    amount: 1900,
+                    sub: "Monthly Access"
+                },
+
+                {
+                    name: "GOtv Jolli",
+                    amount: 4850,
+                    sub: "Entertainment Package"
+                },
+
+                {
+                    name: "GOtv Max",
+                    amount: 7200,
+                    sub: "Sports & Movies"
+                }
+
+            ],
+
+            STARTIMES: [
+
+                {
+                    name: "Nova",
+                    amount: 1700,
+                    sub: "Basic Channels"
+                },
+
+                {
+                    name: "Basic",
+                    amount: 3300,
+                    sub: "Family Package"
+                },
+
+                {
+                    name: "Classic",
+                    amount: 5000,
+                    sub: "Movies & Sports"
+                }
+
+            ],
+
+            SHOWMAX: [
+
+                {
+                    name: "Mobile Plan",
+                    amount: 1600,
+                    sub: "Mobile Streaming"
+                },
+
+                {
+                    name: "Standard Plan",
+                    amount: 3500,
+                    sub: "HD Streaming"
+                }
+
+            ]
+        };
+
+        let selectedTV = "DSTV";
+        let selectedAmount = 0;
+        let selectedPlan = "";
+
+        // =========================
+        // SELECT TV
+        // =========================
+        function selectTV(name, el) {
+
+            selectedTV = name;
+
+            document.querySelectorAll(".tv-card")
+                .forEach(card => {
+                    card.classList.remove("active");
+                });
+
+            el.classList.add("active");
+
+            renderPlans();
+        }
+
+        // =========================
+        // RENDER PLANS
+        // =========================
+        function renderPlans() {
+
+            const container =
+                document.getElementById("plansContainer");
+
+            container.innerHTML = "";
+
+            plans[selectedTV].forEach(plan => {
+
+                container.innerHTML += `
+
+                <div class="plan-card"
+                    onclick="selectPlan('${plan.name}', ${plan.amount}, this)">
+
+                    <div class="plan-top">
+
+                        <div class="plan-name">
+                            ${plan.name}
+                        </div>
+
+                        <div class="plan-price">
+                            ₦${plan.amount.toLocaleString()}
+                        </div>
+
+                    </div>
+
+                    <div class="plan-sub">
+                        ${plan.sub}
+                    </div>
+
+                </div>
+
+                `;
+            });
+        }
+
+        renderPlans();
+
+        // =========================
+        // SELECT PLAN
+        // =========================
+        function selectPlan(name, amount, el) {
+
+            selectedPlan = name;
+            selectedAmount = amount;
+
+            document.querySelectorAll(".plan-card")
+                .forEach(card => {
+                    card.classList.remove("active");
+                });
+
+            el.classList.add("active");
+        }
+
+        // =========================
+        // VERIFY DECODER
+        // =========================
+        function verifyDecoder() {
+
+            const decoder =
+                document.getElementById("decoderNumber").value;
+
+            const verifyBox =
+                document.getElementById("verifyBox");
+
+            const customerName =
+                document.getElementById("customerName");
+
+            if (decoder.length >= 8) {
+
+                verifyBox.style.display = "block";
+
+                customerName.innerText =
+                    "MICHAEL ADEBAYO";
+            }
+            else {
+
+                verifyBox.style.display = "none";
+            }
+        }
+
+        // =========================
+        // SUBSCRIBE
+        // =========================
+        function subscribeTV() {
+
+            const decoder =
+                document.getElementById("decoderNumber").value;
+
+            if (decoder.length < 8) {
+
+                alert("Enter valid decoder number");
+                return;
+            }
+
+            if (!selectedAmount) {
+
+                alert("Please select subscription plan");
+                return;
+            }
+
+            let wallet =
+                JSON.parse(localStorage.getItem("skillpay_wallet"));
+
+            // OWNER PROFIT
+            const ownerProfit =
+                Math.ceil(selectedAmount * 0.003);
+
+            const total =
+                selectedAmount + ownerProfit;
+
+            if (wallet.balance < total) {
+
+                alert("Insufficient wallet balance");
+                return;
+            }
+
+            // DEBIT
+            wallet.balance -= total;
+
+            // SAVE TRANSACTION
+            wallet.transactions.unshift({
+
+                type: "TV Subscription",
+
+                provider: selectedTV,
+
+                smartcard: decoder,
+
+                plan: selectedPlan,
+
+                amount: selectedAmount,
+
+                date: new Date().toLocaleString()
+
+            });
+
+            localStorage.setItem(
+                "skillpay_wallet",
+                JSON.stringify(wallet)
+            );
+
+            // OWNER WALLET
+            let ownerWallet =
+                JSON.parse(localStorage.getItem("owner_wallet"));
+
+            if (!ownerWallet) {
+
+                ownerWallet = {
+                    balance: 0,
+                    earnings: []
+                };
+            }
+
+            ownerWallet.balance += ownerProfit;
+
+            ownerWallet.earnings.unshift({
+
+                type: "TV Subscription Profit",
+
+                amount: ownerProfit,
+
+                date: new Date().toLocaleString()
+
+            });
+
+            localStorage.setItem(
+                "owner_wallet",
+                JSON.stringify(ownerWallet)
+            );
+
+            // SUCCESS
+            alert(
+
+                "Subscription Successful\n\n" +
+
+                "Provider: " + selectedTV + "\n" +
+
+                "Plan: " + selectedPlan + "\n" +
+
+                "Amount: ₦" +
+
+                selectedAmount.toLocaleString()
+
+            );
+
+            window.location.href =
+                "services.html";
+        }
+
+    </script>
+
+</body>
+
+</html>

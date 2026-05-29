@@ -1,0 +1,1036 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SkillPay Data Purchase</title>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap"
+        rel="stylesheet">
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+        }
+
+        body {
+            background: #F1F5F9;
+            display: flex;
+            justify-content: center;
+        }
+
+        .app {
+            width: 100%;
+            max-width: 430px;
+            min-height: 100vh;
+            background: white;
+            padding: 20px;
+            padding-bottom: 120px;
+        }
+
+        .top-bar {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+
+        .back-btn {
+            width: 45px;
+            height: 45px;
+            border-radius: 15px;
+            background: #EFF6FF;
+            color: #2563EB;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            font-size: 18px;
+        }
+
+        .page-title {
+            font-size: 22px;
+            font-weight: 800;
+            color: #0F172A;
+        }
+
+        .wallet-card {
+            background: linear-gradient(135deg, #2563EB, #1D4ED8);
+            border-radius: 25px;
+            padding: 24px;
+            color: white;
+            margin-bottom: 25px;
+        }
+
+        .wallet-label {
+            font-size: 13px;
+            opacity: .8;
+            font-weight: 600;
+        }
+
+        .wallet-balance {
+            font-size: 30px;
+            font-weight: 800;
+            margin-top: 8px;
+        }
+
+        .section-title {
+            font-size: 15px;
+            font-weight: 800;
+            color: #0F172A;
+            margin-bottom: 16px;
+        }
+
+        .phone-box {
+            background: white;
+            border: 2px solid #E2E8F0;
+            border-radius: 22px;
+            padding: 18px;
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            transition: .25s;
+            margin-bottom: 25px;
+        }
+
+        .phone-box:focus-within {
+            border-color: #2563EB;
+            box-shadow: 0 0 0 4px rgba(37, 99, 235, .08);
+            transform: translateY(-2px);
+        }
+
+        .phone-icon {
+            width: 50px;
+            height: 50px;
+            border-radius: 16px;
+            background: #EFF6FF;
+            color: #2563EB;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+        }
+
+        .phone-input {
+            flex: 1;
+            border: none;
+            outline: none;
+            font-size: 17px;
+            font-weight: 700;
+            color: #0F172A;
+        }
+
+        .network-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 14px;
+            margin-bottom: 25px;
+        }
+
+        .network-card {
+            background: white;
+            border: 2px solid #E2E8F0;
+            border-radius: 22px;
+            padding: 18px;
+            cursor: pointer;
+            transition: .25s;
+        }
+
+        .network-card.active {
+            border-color: #2563EB;
+            background: #EFF6FF;
+        }
+
+        .network-card:active {
+            transform: scale(.96);
+        }
+
+        .network-logo {
+            width: 55px;
+            height: 55px;
+            border-radius: 16px;
+            object-fit: cover;
+            margin-bottom: 12px;
+        }
+
+        .network-name {
+            font-size: 15px;
+            font-weight: 800;
+            color: #0F172A;
+        }
+
+        .network-sub {
+            font-size: 11px;
+            color: #64748B;
+            margin-top: 3px;
+            font-weight: 600;
+        }
+
+        .category-btn {
+            width: 100%;
+            background: white;
+            border: 2px solid #E2E8F0;
+            border-radius: 20px;
+            padding: 18px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 14px;
+            cursor: pointer;
+            transition: .25s;
+        }
+
+        .category-btn.active {
+            border-color: #2563EB;
+            background: #EFF6FF;
+        }
+
+        .category-left {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+        }
+
+        .category-icon {
+            width: 48px;
+            height: 48px;
+            border-radius: 16px;
+            background: #DBEAFE;
+            color: #2563EB;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+        }
+
+        .category-title {
+            font-size: 15px;
+            font-weight: 800;
+            color: #0F172A;
+        }
+
+        .category-sub {
+            font-size: 11px;
+            color: #64748B;
+            margin-top: 3px;
+            font-weight: 600;
+        }
+
+        .plan-box {
+            display: none;
+            margin-bottom: 16px;
+        }
+
+        .plan-box.show {
+            display: block;
+            animation: fadeIn .25s ease;
+        }
+
+        .plan-card {
+            background: white;
+            border: 2px solid #E2E8F0;
+            border-radius: 20px;
+            padding: 18px;
+            margin-bottom: 12px;
+            cursor: pointer;
+            transition: .25s;
+        }
+
+        .plan-card.active {
+            border-color: #2563EB;
+            background: #EFF6FF;
+        }
+
+        .plan-card:active {
+            transform: scale(.97);
+        }
+
+        .plan-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .plan-name {
+            font-size: 16px;
+            font-weight: 800;
+            color: #0F172A;
+        }
+
+        .plan-validity {
+            font-size: 11px;
+            color: #64748B;
+            margin-top: 5px;
+            font-weight: 700;
+        }
+
+        .plan-price {
+            font-size: 18px;
+            font-weight: 800;
+            color: #2563EB;
+        }
+
+        .profit {
+            background: #DCFCE7;
+            color: #15803D;
+            padding: 5px 10px;
+            border-radius: 100px;
+            display: inline-block;
+            font-size: 10px;
+            font-weight: 800;
+            margin-top: 10px;
+        }
+
+        .buy-btn {
+            width: 100%;
+            border: none;
+            background: #2563EB;
+            color: white;
+            height: 60px;
+            border-radius: 22px;
+            font-size: 16px;
+            font-weight: 800;
+            cursor: pointer;
+            margin-top: 15px;
+            transition: .25s;
+        }
+
+        .buy-btn:active {
+            transform: scale(.98);
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(8px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="app">
+
+        <div class="top-bar">
+            <div class="back-btn" onclick="window.location.href='more.html'">
+                <i class="fa-solid fa-arrow-left"></i>
+            </div>
+
+            <div class="page-title">
+                Buy Data
+            </div>
+        </div>
+
+        <div class="wallet-card">
+            <div class="wallet-label">
+                Wallet Balance
+            </div>
+
+            <div class="wallet-balance" id="walletBalance">
+                ₦0
+            </div>
+        </div>
+
+        <div class="section-title">
+            Phone Number
+        </div>
+
+        <div class="phone-box">
+            <div class="phone-icon">
+                <i class="fa-solid fa-phone"></i>
+            </div>
+
+            <input type="number" class="phone-input" id="phone" placeholder="Enter 11-digit phone number">
+        </div>
+
+        <div class="section-title">
+            Select Network
+        </div>
+
+        <div class="network-grid">
+
+            <div class="network-card active" onclick="selectNetwork('MTN', this)">
+
+                <img src="https://upload.wikimedia.org/wikipedia/commons/9/93/New-mtn-logo.jpg" class="network-logo">
+
+                <div class="network-name">
+                    MTN
+                </div>
+
+                <div class="network-sub">
+                    Fast Network
+                </div>
+
+            </div>
+
+            <div class="network-card" onclick="selectNetwork('Airtel', this)">
+
+                <img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/Airtel_logo.svg" class="network-logo">
+
+                <div class="network-name">
+                    Airtel
+                </div>
+
+                <div class="network-sub">
+                    Smart Connect
+                </div>
+
+            </div>
+
+            <div class="network-card" onclick="selectNetwork('Glo', this)">
+
+                <img src="https://upload.wikimedia.org/wikipedia/en/9/9f/Glo_logo.png" class="network-logo">
+
+                <div class="network-name">
+                    Glo
+                </div>
+
+                <div class="network-sub">
+                    Grandmasters
+                </div>
+
+            </div>
+
+            <div class="network-card" onclick="selectNetwork('9mobile', this)">
+
+                <img src="https://upload.wikimedia.org/wikipedia/commons/5/5d/9mobile_logo.svg" class="network-logo">
+
+                <div class="network-name">
+                    9mobile
+                </div>
+
+                <div class="network-sub">
+                    More You
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- NORMAL -->
+        <div class="category-btn" onclick="toggleCategory('normalPlans', this)">
+
+            <div class="category-left">
+
+                <div class="category-icon">
+                    <i class="fa-solid fa-globe"></i>
+                </div>
+
+                <div>
+                    <div class="category-title">
+                        Normal Plans
+                    </div>
+
+                    <div class="category-sub">
+                        Daily & Monthly Plans
+                    </div>
+                </div>
+
+            </div>
+
+            <i class="fa-solid fa-chevron-down"></i>
+
+        </div>
+
+        <div class="plan-box" id="normalPlans"></div>
+
+        <!-- GIFTING -->
+        <div class="category-btn" onclick="toggleCategory('giftingPlans', this)">
+
+            <div class="category-left">
+
+                <div class="category-icon">
+                    <i class="fa-solid fa-gift"></i>
+                </div>
+
+                <div>
+                    <div class="category-title">
+                        Gifting Plans
+                    </div>
+
+                    <div class="category-sub">
+                        Send Data To Others
+                    </div>
+                </div>
+
+            </div>
+
+            <i class="fa-solid fa-chevron-down"></i>
+
+        </div>
+
+        <div class="plan-box" id="giftingPlans"></div>
+
+        <!-- SME -->
+        <div class="category-btn" onclick="toggleCategory('corporatePlans', this)">
+
+            <div class="category-left">
+
+                <div class="category-icon">
+                    <i class="fa-solid fa-building"></i>
+                </div>
+
+                <div>
+                    <div class="category-title">
+                        Corporate Plans
+                    </div>
+
+                    <div class="category-sub">
+                        SME Cheap Bundles
+                    </div>
+                </div>
+
+            </div>
+
+            <i class="fa-solid fa-chevron-down"></i>
+
+        </div>
+
+        <div class="plan-box" id="corporatePlans"></div>
+
+        <!-- AWOOF -->
+        <div class="category-btn" onclick="toggleCategory('awoofPlans', this)">
+
+            <div class="category-left">
+
+                <div class="category-icon">
+                    <i class="fa-solid fa-fire"></i>
+                </div>
+
+                <div>
+                    <div class="category-title">
+                        Awoof Plans
+                    </div>
+
+                    <div class="category-sub">
+                        Special Bonus Plans
+                    </div>
+                </div>
+
+            </div>
+
+            <i class="fa-solid fa-chevron-down"></i>
+
+        </div>
+
+        <div class="plan-box" id="awoofPlans"></div>
+
+        <button class="buy-btn" onclick="buyData()">
+            Buy Data Plan
+        </button>
+
+    </div>
+    <script>
+
+        let currentNetwork = "MTN";
+        let selectedPlan = null;
+        let selectedAmount = 0;
+
+        // ==========================
+        // WALLET SETUP
+        // ==========================
+        let wallet =
+            JSON.parse(localStorage.getItem("skillpay_wallet"));
+
+        if (!wallet) {
+
+            wallet = {
+                balance: 5000,
+                transactions: []
+            };
+
+            localStorage.setItem(
+                "skillpay_wallet",
+                JSON.stringify(wallet)
+            );
+        }
+
+        document.getElementById("walletBalance").innerText =
+            "₦" + wallet.balance.toLocaleString();
+
+
+        // ==========================
+        // DATA PLANS
+        // ==========================
+        const plans = {
+
+            MTN: {
+
+                normal: [
+                    {
+                        name: "500MB",
+                        amount: 170,
+                        validity: "2 Days"
+                    },
+
+                    {
+                        name: "1GB",
+                        amount: 320,
+                        validity: "7 Days"
+                    },
+
+                    {
+                        name: "1.5GB",
+                        amount: 1015,
+                        validity: "30 Days"
+                    },
+
+                    {
+                        name: "2GB",
+                        amount: 1220,
+                        validity: "30 Days"
+                    },
+
+                    {
+                        name: "5GB",
+                        amount: 2520,
+                        validity: "30 Days"
+                    },
+
+                    {
+                        name: "10GB",
+                        amount: 5020,
+                        validity: "30 Days"
+                    }
+                ],
+
+                gifting: [
+                    {
+                        name: "1GB Gifting",
+                        amount: 330,
+                        validity: "7 Days"
+                    },
+
+                    {
+                        name: "2GB Gifting",
+                        amount: 650,
+                        validity: "30 Days"
+                    }
+                ],
+
+                corporate: [
+                    {
+                        name: "1GB SME",
+                        amount: 310,
+                        validity: "30 Days"
+                    },
+
+                    {
+                        name: "2GB SME",
+                        amount: 620,
+                        validity: "30 Days"
+                    },
+
+                    {
+                        name: "5GB SME",
+                        amount: 1540,
+                        validity: "30 Days"
+                    }
+                ],
+
+                awoof: [
+                    {
+                        name: "2GB Weekend",
+                        amount: 500,
+                        validity: "Weekend"
+                    },
+
+                    {
+                        name: "5GB Weekend",
+                        amount: 1000,
+                        validity: "Weekend"
+                    }
+                ]
+            },
+
+            Airtel: {
+
+                normal: [
+                    {
+                        name: "1GB",
+                        amount: 330,
+                        validity: "7 Days"
+                    },
+
+                    {
+                        name: "2GB",
+                        amount: 620,
+                        validity: "30 Days"
+                    }
+                ],
+
+                gifting: [
+                    {
+                        name: "1GB Gift",
+                        amount: 350,
+                        validity: "7 Days"
+                    }
+                ],
+
+                corporate: [
+                    {
+                        name: "1GB SME",
+                        amount: 320,
+                        validity: "30 Days"
+                    }
+                ],
+
+                awoof: [
+                    {
+                        name: "3GB Weekend",
+                        amount: 700,
+                        validity: "Weekend"
+                    }
+                ]
+            },
+
+            Glo: {
+
+                normal: [
+                    {
+                        name: "1GB",
+                        amount: 310,
+                        validity: "7 Days"
+                    },
+
+                    {
+                        name: "2GB",
+                        amount: 610,
+                        validity: "30 Days"
+                    }
+                ],
+
+                gifting: [
+                    {
+                        name: "1GB Gift",
+                        amount: 330,
+                        validity: "7 Days"
+                    }
+                ],
+
+                corporate: [
+                    {
+                        name: "1GB SME",
+                        amount: 300,
+                        validity: "30 Days"
+                    }
+                ],
+
+                awoof: [
+                    {
+                        name: "2.5GB",
+                        amount: 500,
+                        validity: "Weekend"
+                    }
+                ]
+            },
+
+            "9mobile": {
+
+                normal: [
+                    {
+                        name: "1GB",
+                        amount: 340,
+                        validity: "7 Days"
+                    }
+                ],
+
+                gifting: [
+                    {
+                        name: "1GB Gift",
+                        amount: 360,
+                        validity: "7 Days"
+                    }
+                ],
+
+                corporate: [
+                    {
+                        name: "1GB SME",
+                        amount: 330,
+                        validity: "30 Days"
+                    }
+                ],
+
+                awoof: [
+                    {
+                        name: "2GB Weekend",
+                        amount: 550,
+                        validity: "Weekend"
+                    }
+                ]
+            }
+
+        };
+
+
+        // ==========================
+        // NETWORK SELECT
+        // ==========================
+        function selectNetwork(network, el) {
+
+            currentNetwork = network;
+
+            document.querySelectorAll(".network-card")
+                .forEach(card => {
+                    card.classList.remove("active");
+                });
+
+            el.classList.add("active");
+
+            renderAllPlans();
+        }
+
+
+        // ==========================
+        // TOGGLE CATEGORY
+        // ==========================
+        function toggleCategory(id, btn) {
+
+            const box =
+                document.getElementById(id);
+
+            box.classList.toggle("show");
+
+            btn.classList.toggle("active");
+        }
+
+
+        // ==========================
+        // RENDER PLAN SECTION
+        // ==========================
+        function renderSection(id, data) {
+
+            const container =
+                document.getElementById(id);
+
+            container.innerHTML = "";
+
+            data.forEach(plan => {
+
+                container.innerHTML += `
+
+        <div class="plan-card"
+        onclick="selectPlan(this,'${plan.name}',${plan.amount})">
+
+            <div class="plan-top">
+
+                <div>
+
+                    <div class="plan-name">
+                        ${plan.name}
+                    </div>
+
+                    <div class="plan-validity">
+                        ${plan.validity}
+                    </div>
+
+                </div>
+
+                <div class="plan-price">
+                    ₦${plan.amount}
+                </div>
+
+            </div>
+
+        </div>
+
+        `;
+            });
+        }
+
+
+        // ==========================
+        // RENDER ALL
+        // ==========================
+        function renderAllPlans() {
+
+            renderSection(
+                "normalPlans",
+                plans[currentNetwork].normal
+            );
+
+            renderSection(
+                "giftingPlans",
+                plans[currentNetwork].gifting
+            );
+
+            renderSection(
+                "corporatePlans",
+                plans[currentNetwork].corporate
+            );
+
+            renderSection(
+                "awoofPlans",
+                plans[currentNetwork].awoof
+            );
+        }
+
+
+        // ==========================
+        // SELECT PLAN
+        // ==========================
+        function selectPlan(el, name, amount) {
+
+            document.querySelectorAll(".plan-card")
+                .forEach(card => {
+                    card.classList.remove("active");
+                });
+
+            el.classList.add("active");
+
+            selectedPlan = name;
+            selectedAmount = amount;
+        }
+
+
+        // ==========================
+        // BUY DATA
+        // ==========================
+        function buyData() {
+
+            const phone =
+                document.getElementById("phone").value;
+
+            if (phone.length !== 11) {
+
+                alert(
+                    "Phone number must be 11 digits"
+                );
+
+                return;
+            }
+
+            if (!selectedPlan) {
+
+                alert("Please select a data plan");
+
+                return;
+            }
+
+            let wallet =
+                JSON.parse(localStorage.getItem("skillpay_wallet"));
+
+            const hiddenProfit =
+                Math.ceil(selectedAmount * 0.003);
+
+            const totalCharge =
+                selectedAmount + hiddenProfit;
+
+            if (wallet.balance < totalCharge) {
+
+                alert("Insufficient balance");
+
+                return;
+            }
+
+            // ======================
+            // DEBIT WALLET
+            // ======================
+            wallet.balance -= totalCharge;
+
+            wallet.transactions.unshift({
+
+                type: "Data Purchase",
+
+                network: currentNetwork,
+
+                phone: phone,
+
+                plan: selectedPlan,
+
+                amount: selectedAmount,
+
+                date: new Date().toLocaleString()
+
+            });
+
+            localStorage.setItem(
+                "skillpay_wallet",
+                JSON.stringify(wallet)
+            );
+
+            // ======================
+            // OWNER PROFIT
+            // ======================
+            let owner =
+                JSON.parse(localStorage.getItem("owner_wallet"));
+
+            if (!owner) {
+
+                owner = {
+                    balance: 0,
+                    earnings: []
+                };
+            }
+
+            owner.balance += hiddenProfit;
+
+            owner.earnings.unshift({
+
+                amount: hiddenProfit,
+
+                date: new Date().toLocaleString(),
+
+                type: "Service Charge"
+
+            });
+
+            localStorage.setItem(
+                "owner_wallet",
+                JSON.stringify(owner)
+            );
+
+            // ======================
+            // UPDATE UI
+            // ======================
+            document.getElementById(
+                "walletBalance"
+            ).innerText =
+                "₦" + wallet.balance.toLocaleString();
+
+            // ======================
+            // SUCCESS
+            // ======================
+            alert(
+
+                "Data Purchase Successful\n\n" +
+
+                selectedPlan +
+
+                "\n" +
+
+                currentNetwork +
+
+                "\n\nSent to:\n" +
+
+                phone
+
+            );
+
+            window.location.href =
+                "more.html";
+        }
+
+
+        // ==========================
+        // INITIAL LOAD
+        // ==========================
+        renderAllPlans();
+
+    </script>
+
+</body>
+
+</html>

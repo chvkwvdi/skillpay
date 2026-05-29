@@ -1,0 +1,498 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap"
+        rel="stylesheet">
+</head>
+
+<body>
+
+
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            background: #F1F5F9;
+            color: #0F172A;
+        }
+
+        .airtime-page {
+            padding: 20px;
+        }
+
+        /* =========================
+    WALLET CARD
+    ========================= */
+
+        .wallet-card {
+            background: linear-gradient(135deg, #2563EB, #1D4ED8);
+            border-radius: 28px;
+            padding: 24px;
+            color: white;
+            margin-bottom: 28px;
+            box-shadow: 0 10px 25px rgba(37, 99, 235, 0.18);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .wallet-card::before {
+            content: "";
+            position: absolute;
+            width: 180px;
+            height: 180px;
+            background: rgba(255, 255, 255, 0.08);
+            border-radius: 50%;
+            top: -70px;
+            right: -70px;
+        }
+
+        .wallet-label {
+            font-size: 12px;
+            font-weight: 700;
+            opacity: 0.9;
+            margin-bottom: 6px;
+        }
+
+        .wallet-balance {
+            font-size: 32px;
+            font-weight: 800;
+            letter-spacing: -1px;
+        }
+
+        /* =========================
+    SECTION TITLE
+    ========================= */
+
+        .section-title {
+            font-size: 15px;
+            font-weight: 800;
+            margin-bottom: 14px;
+            color: #0F172A;
+        }
+
+        /* =========================
+    NETWORK GRID
+    ========================= */
+
+        .network-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 12px;
+            margin-bottom: 30px;
+        }
+
+        .network-card {
+            background: white;
+            border: 2px solid #E2E8F0;
+            border-radius: 22px;
+            padding: 18px 10px;
+            text-align: center;
+            cursor: pointer;
+            transition: 0.25s ease;
+            box-shadow: 0 4px 10px rgba(15, 23, 42, 0.03);
+        }
+
+        .network-card:hover {
+            transform: translateY(-3px);
+        }
+
+        .network-card:active {
+            transform: scale(0.95);
+        }
+
+        .network-card img {
+            width: 42px;
+            height: 42px;
+            object-fit: contain;
+            margin-bottom: 10px;
+        }
+
+        .network-card span {
+            font-size: 12px;
+            font-weight: 800;
+        }
+
+        .active-network {
+            border-color: #2563EB;
+            background: #EFF6FF;
+            box-shadow: 0 6px 16px rgba(37, 99, 235, 0.12);
+        }
+
+        /* =========================
+    PHONE INPUT
+    ========================= */
+
+        .phone-box {
+            display: flex;
+            align-items: center;
+            background: white;
+            border: 2px solid #E2E8F0;
+            border-radius: 22px;
+            overflow: hidden;
+            transition: 0.25s ease;
+            margin-bottom: 28px;
+        }
+
+        .phone-box:focus-within {
+            border-color: #2563EB;
+            box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.1);
+        }
+
+        .country-code {
+            padding: 18px;
+            background: #EFF6FF;
+            color: #2563EB;
+            font-weight: 800;
+            font-size: 14px;
+        }
+
+        .phone-input {
+            flex: 1;
+            border: none;
+            outline: none;
+            padding: 18px;
+            font-size: 16px;
+            font-weight: 700;
+            color: #0F172A;
+        }
+
+        /* =========================
+    QUICK AMOUNTS
+    ========================= */
+
+        .quick-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 12px;
+            margin-bottom: 28px;
+        }
+
+        .quick-amount {
+            border: none;
+            background: white;
+            border-radius: 20px;
+            padding: 18px;
+            font-size: 14px;
+            font-weight: 800;
+            color: #0F172A;
+            cursor: pointer;
+            transition: 0.2s ease;
+            border: 2px solid #E2E8F0;
+            box-shadow: 0 4px 10px rgba(15, 23, 42, 0.03);
+        }
+
+        .quick-amount:hover {
+            background: #EFF6FF;
+            border-color: #2563EB;
+            color: #2563EB;
+        }
+
+        .quick-amount:active {
+            transform: scale(0.94);
+        }
+
+        /* =========================
+    AMOUNT INPUT
+    ========================= */
+
+        .amount-input {
+            width: 100%;
+            border: 2px solid #E2E8F0;
+            background: white;
+            border-radius: 22px;
+            padding: 20px;
+            font-size: 18px;
+            font-weight: 800;
+            outline: none;
+            transition: 0.25s ease;
+            margin-bottom: 35px;
+        }
+
+        .amount-input:focus {
+            border-color: #2563EB;
+            box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.1);
+        }
+
+        /* =========================
+    BUY BUTTON
+    ========================= */
+
+        .buy-btn {
+            width: 100%;
+            border: none;
+            background: linear-gradient(135deg, #2563EB, #1D4ED8);
+            color: white;
+            padding: 20px;
+            border-radius: 24px;
+            font-size: 15px;
+            font-weight: 800;
+            cursor: pointer;
+            transition: 0.2s ease;
+            box-shadow: 0 10px 25px rgba(37, 99, 235, 0.18);
+        }
+
+        .buy-btn:hover {
+            transform: translateY(-2px);
+        }
+
+        .buy-btn:active {
+            transform: scale(0.97);
+        }
+
+        /* =========================
+    TOAST
+    ========================= */
+
+        .toast {
+            position: fixed;
+            bottom: 100px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #0F172A;
+            color: white;
+            padding: 14px 18px;
+            border-radius: 14px;
+            font-size: 13px;
+            font-weight: 700;
+            z-index: 99999;
+            animation: toastUp 0.3s ease;
+        }
+
+        @keyframes toastUp {
+            from {
+                opacity: 0;
+                transform: translate(-50%, 20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translate(-50%, 0);
+            }
+        }
+    </style>
+
+    <div class="airtime-page">
+
+        <!-- WALLET -->
+        <div class="wallet-card">
+            <div class="wallet-label">Wallet Balance</div>
+            <div class="wallet-balance" id="walletBalance">₦0</div>
+        </div>
+
+        <!-- NETWORK -->
+        <div class="section-title">Select Network</div>
+
+        <div class="network-grid">
+
+            <div class="network-card active-network" data-network="MTN">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/9/93/New-mtn-logo.jpg">
+                <span>MTN</span>
+            </div>
+
+            <div class="network-card" data-network="Airtel">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/5/53/Airtel_logo.svg">
+                <span>Airtel</span>
+            </div>
+
+            <div class="network-card" data-network="Glo">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/1/17/Glo_logo.png">
+                <span>Glo</span>
+            </div>
+
+            <div class="network-card" data-network="9mobile">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/7/7d/9mobile_logo.png">
+                <span>9mobile</span>
+            </div>
+
+        </div>
+
+        <!-- PHONE -->
+        <div class="section-title">Phone Number</div>
+
+        <div class="phone-box">
+
+            <div class="country-code">
+                +234
+            </div>
+
+            <input type="tel" class="phone-input" id="phone" placeholder="8012345678">
+
+        </div>
+
+        <!-- QUICK AMOUNT -->
+        <div class="section-title">Quick Amount</div>
+
+        <div class="quick-grid">
+
+            <button class="quick-amount" data-amount="50">₦50</button>
+            <button class="quick-amount" data-amount="100">₦100</button>
+            <button class="quick-amount" data-amount="200">₦200</button>
+
+            <button class="quick-amount" data-amount="500">₦500</button>
+            <button class="quick-amount" data-amount="1000">₦1000</button>
+            <button class="quick-amount" data-amount="2000">₦2000</button>
+
+        </div>
+
+        <!-- AMOUNT -->
+        <div class="section-title">Enter Amount</div>
+
+        <input type="number" id="amount" class="amount-input" placeholder="Minimum ₦50">
+
+        <!-- BUTTON -->
+        <button class="buy-btn" id="buyBtn">
+            Buy Airtime
+        </button>
+
+    </div>
+
+    <script>
+        let selectedNetwork = "MTN";
+
+        // =========================
+        // LOAD BALANCE
+        // =========================
+        const wallet = JSON.parse(localStorage.getItem("skillpay_wallet")) || {
+            balance: 3000,
+            transactions: []
+        };
+
+        document.getElementById("walletBalance").innerText =
+            `₦${wallet.balance.toLocaleString()}`;
+
+        // =========================
+        // SELECT NETWORK
+        // =========================
+        document.querySelectorAll(".network-card").forEach(card => {
+
+            card.addEventListener("click", () => {
+
+                document.querySelectorAll(".network-card")
+                    .forEach(c => c.classList.remove("active-network"));
+
+                card.classList.add("active-network");
+
+                selectedNetwork = card.dataset.network;
+
+            });
+
+        });
+
+        // =========================
+        // QUICK AMOUNT
+        // =========================
+        document.querySelectorAll(".quick-amount").forEach(btn => {
+
+            btn.addEventListener("click", () => {
+
+                document.getElementById("amount").value =
+                    btn.dataset.amount;
+
+            });
+
+        });
+
+        // =========================
+        // BUY AIRTIME
+        // =========================
+        document.getElementById("buyBtn")
+            .addEventListener("click", () => {
+
+                const phone =
+                    document.getElementById("phone")
+                        .value.trim();
+
+                const amount =
+                    Number(document.getElementById("amount")
+                        .value);
+
+                // VALIDATE PHONE
+                if (phone.length !== 11) {
+                    showToast("Phone number must be 11 digits");
+                    return;
+                }
+
+                // VALIDATE AMOUNT
+                if (amount < 50) {
+                    showToast("Minimum airtime purchase is ₦50");
+                    return;
+                }
+
+                // CHECK BALANCE
+                if (wallet.balance < amount) {
+                    showToast("Insufficient wallet balance");
+                    return;
+                }
+
+                // REMOVE MONEY
+                wallet.balance -= amount;
+
+                // SAVE TRANSACTION
+                wallet.transactions.unshift({
+                    type: "Airtime Purchase",
+                    network: selectedNetwork,
+                    phone: phone,
+                    amount: amount,
+                    status: "Successful",
+                    date: new Date().toLocaleString()
+                });
+
+                localStorage.setItem(
+                    "skillpay_wallet",
+                    JSON.stringify(wallet)
+                );
+
+                // SUCCESS BUTTON
+                const btn =
+                    document.getElementById("buyBtn");
+
+                btn.innerHTML =
+                    `<i class="fa-solid fa-circle-check"></i> Successful`;
+
+                btn.style.background =
+                    "linear-gradient(135deg,#16A34A,#15803D)";
+
+                showToast(`₦${amount} sent successfully`);
+
+                // REDIRECT
+                setTimeout(() => {
+
+                    window.location.href = "more.html";
+
+                }, 1800);
+
+            });
+
+        // =========================
+        // TOAST
+        // =========================
+        function showToast(message) {
+
+            const toast = document.createElement("div");
+
+            toast.className = "toast";
+
+            toast.innerText = message;
+
+            document.body.appendChild(toast);
+
+            setTimeout(() => {
+                toast.remove();
+            }, 2500);
+
+        }
+    </script>
+</body>
+
+</html>
